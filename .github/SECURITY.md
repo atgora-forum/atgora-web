@@ -32,6 +32,7 @@ We will respond within 72 hours with next steps.
 ## Disclosure Policy
 
 We follow responsible disclosure:
+
 - 90 days before public disclosure
 - Credit given to reporter (if desired)
 - CVE assigned when applicable

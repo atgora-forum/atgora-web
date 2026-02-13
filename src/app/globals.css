@@ -155,10 +155,11 @@
   --color-accent: var(--cyan-4);
   --color-accent-foreground: var(--cyan-12);
 
-  /* Destructive (Red) - use red-11 for AA contrast with white text */
-  --color-destructive: var(--red-11);
+  /* Destructive (Red) - hardcoded from --red-11/#ce2c31 for AA contrast with white
+     (5.21:1 ratio). Hover from --red-12. */
+  --color-destructive: #ce2c31;
   --color-destructive-foreground: #fff;
-  --color-destructive-hover: var(--red-12);
+  --color-destructive-hover: #641723;
   --color-destructive-muted: var(--red-3);
 
   /* Success (Green) */

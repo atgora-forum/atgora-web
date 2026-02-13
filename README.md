@@ -1,14 +1,14 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/atgora-forum/.github/main/assets/logo-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/atgora-forum/.github/main/assets/logo-light.svg">
-  <img alt="ATgora Logo" src="https://raw.githubusercontent.com/atgora-forum/.github/main/assets/logo-dark.svg" width="120">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/barazo-forum/.github/main/assets/logo-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/barazo-forum/.github/main/assets/logo-light.svg">
+  <img alt="Barazo Logo" src="https://raw.githubusercontent.com/barazo-forum/.github/main/assets/logo-dark.svg" width="120">
 </picture>
 
-# atgora-web
+# barazo-web
 
-**Forum frontend for ATgora**
+**Forum frontend for Barazo**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
@@ -20,7 +20,7 @@
 
 ## 🚧 Status: Pre-Alpha Development
 
-The default frontend for ATgora - community forums built on the AT Protocol.
+The default frontend for Barazo - community forums built on the AT Protocol.
 
 **Current phase:** Planning complete, implementation starting Q1 2026
 
@@ -28,7 +28,7 @@ The default frontend for ATgora - community forums built on the AT Protocol.
 
 ## What is this?
 
-The atgora-web is the user-facing interface for ATgora forums. It provides:
+The barazo-web is the user-facing interface for Barazo forums. It provides:
 
 - **Forum UI** - Topics, replies, categories, search, profiles
 - **Authentication flow** - OAuth with AT Protocol PDS providers
@@ -37,7 +37,7 @@ The atgora-web is the user-facing interface for ATgora forums. It provides:
 - **SEO-optimized** - JSON-LD, OpenGraph, sitemaps
 - **Themeable** - Dark/light mode, customizable branding
 
-**API-first:** Consumes atgora-api REST endpoints. Can be fully replaced with custom frontend.
+**API-first:** Consumes barazo-api REST endpoints. Can be fully replaced with custom frontend.
 
 ---
 
@@ -74,7 +74,7 @@ The atgora-web is the user-facing interface for ATgora forums. It provides:
 
 - Node.js 24 LTS
 - pnpm
-- atgora-api running (see [atgora-api](https://github.com/atgora-forum/atgora-api))
+- barazo-api running (see [barazo-api](https://github.com/barazo-forum/barazo-api))
 
 ---
 
@@ -82,15 +82,15 @@ The atgora-web is the user-facing interface for ATgora forums. It provides:
 
 **Clone and install:**
 ```bash
-git clone https://github.com/atgora-forum/atgora-web.git
-cd atgora-web
+git clone https://github.com/barazo-forum/barazo-web.git
+cd barazo-web
 pnpm install
 ```
 
 **Configure environment:**
 ```bash
 cp .env.example .env.local
-# Set NEXT_PUBLIC_API_URL to your atgora-api instance
+# Set NEXT_PUBLIC_API_URL to your barazo-api instance
 ```
 
 **Run development server:**
@@ -133,16 +133,16 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for full guidelines.
 
 **Production deployment via Docker:**
 ```bash
-docker pull ghcr.io/atgora-forum/atgora-web:latest
+docker pull ghcr.io/barazo-forum/barazo-web:latest
 ```
 
-See [atgora-deploy](https://github.com/atgora-forum/atgora-deploy) for full deployment templates.
+See [barazo-deploy](https://github.com/barazo-forum/barazo-deploy) for full deployment templates.
 
 ---
 
 ## Customization
 
-ATgora forums can be customized:
+Barazo forums can be customized:
 
 **Easy (admin panel):**
 - Forum name, description, logo
@@ -153,13 +153,13 @@ ATgora forums can be customized:
 - Fork this repo
 - Modify components, styles
 - Deploy custom frontend
-- Still consumes atgora-api endpoints
+- Still consumes barazo-api endpoints
 
 ---
 
 ## Documentation
 
-- **User Guides:** [atgora.forum/docs](https://atgora.forum/docs) (coming soon)
+- **User Guides:** [barazo.forum/docs](https://barazo.forum/docs) (coming soon)
 - **PRD:** [docs/prd.md](docs/prd.md)
 
 ---
@@ -174,18 +174,18 @@ See [LICENSE](LICENSE) for full terms.
 
 ## Related Repositories
 
-- **[atgora-api](https://github.com/atgora-forum/atgora-api)** - Backend API (AGPL-3.0)
-- **[atgora-lexicons](https://github.com/atgora-forum/atgora-lexicons)** - AT Protocol schemas
-- **[atgora-deploy](https://github.com/atgora-forum/atgora-deploy)** - Deployment templates
+- **[barazo-api](https://github.com/barazo-forum/barazo-api)** - Backend API (AGPL-3.0)
+- **[barazo-lexicons](https://github.com/barazo-forum/barazo-lexicons)** - AT Protocol schemas
+- **[barazo-deploy](https://github.com/barazo-forum/barazo-deploy)** - Deployment templates
 
 ---
 
 ## Community
 
-- 🌐 **Website:** [atgora.forum](https://atgora.forum) (coming soon)
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/orgs/atgora-forum/discussions)
-- 🐛 **Issues:** [Report bugs](https://github.com/atgora-forum/atgora-web/issues)
+- 🌐 **Website:** [barazo.forum](https://barazo.forum) (coming soon)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/orgs/barazo-forum/discussions)
+- 🐛 **Issues:** [Report bugs](https://github.com/barazo-forum/barazo-web/issues)
 
 ---
 
-© 2026 ATgora. Licensed under MIT.
+© 2026 Barazo. Licensed under MIT.

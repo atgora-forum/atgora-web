@@ -1,0 +1,260 @@
+@import 'tailwindcss';
+@import '@radix-ui/colors/gray.css';
+@import '@radix-ui/colors/gray-dark.css';
+@import '@radix-ui/colors/slate.css';
+@import '@radix-ui/colors/slate-dark.css';
+@import '@radix-ui/colors/cyan.css';
+@import '@radix-ui/colors/cyan-dark.css';
+@import '@radix-ui/colors/purple.css';
+@import '@radix-ui/colors/purple-dark.css';
+@import '@radix-ui/colors/green.css';
+@import '@radix-ui/colors/green-dark.css';
+@import '@radix-ui/colors/orange.css';
+@import '@radix-ui/colors/orange-dark.css';
+@import '@radix-ui/colors/red.css';
+@import '@radix-ui/colors/red-dark.css';
+
+/**
+ * Barazo Design System
+ * Radix Colors (structural) + Flexoki accent hues
+ * @see decisions/frontend.md
+ */
+
+@theme inline {
+  /* Typography */
+  --font-sans: var(--font-source-sans);
+  --font-mono: var(--font-source-code);
+
+  /* Radix Color Tokens - mapped to semantic roles */
+  /* Gray scale (neutral) */
+  --color-gray-1: var(--gray-1);
+  --color-gray-2: var(--gray-2);
+  --color-gray-3: var(--gray-3);
+  --color-gray-4: var(--gray-4);
+  --color-gray-5: var(--gray-5);
+  --color-gray-6: var(--gray-6);
+  --color-gray-7: var(--gray-7);
+  --color-gray-8: var(--gray-8);
+  --color-gray-9: var(--gray-9);
+  --color-gray-10: var(--gray-10);
+  --color-gray-11: var(--gray-11);
+  --color-gray-12: var(--gray-12);
+
+  /* Slate scale (subtle backgrounds) */
+  --color-slate-1: var(--slate-1);
+  --color-slate-2: var(--slate-2);
+  --color-slate-3: var(--slate-3);
+  --color-slate-4: var(--slate-4);
+  --color-slate-5: var(--slate-5);
+  --color-slate-6: var(--slate-6);
+  --color-slate-7: var(--slate-7);
+  --color-slate-8: var(--slate-8);
+  --color-slate-9: var(--slate-9);
+  --color-slate-10: var(--slate-10);
+  --color-slate-11: var(--slate-11);
+  --color-slate-12: var(--slate-12);
+
+  /* Primary accent - Cyan (Flexoki-inspired) */
+  --color-cyan-1: var(--cyan-1);
+  --color-cyan-2: var(--cyan-2);
+  --color-cyan-3: var(--cyan-3);
+  --color-cyan-4: var(--cyan-4);
+  --color-cyan-5: var(--cyan-5);
+  --color-cyan-6: var(--cyan-6);
+  --color-cyan-7: var(--cyan-7);
+  --color-cyan-8: var(--cyan-8);
+  --color-cyan-9: var(--cyan-9);
+  --color-cyan-10: var(--cyan-10);
+  --color-cyan-11: var(--cyan-11);
+  --color-cyan-12: var(--cyan-12);
+
+  /* Secondary accent - Purple */
+  --color-purple-1: var(--purple-1);
+  --color-purple-2: var(--purple-2);
+  --color-purple-3: var(--purple-3);
+  --color-purple-4: var(--purple-4);
+  --color-purple-5: var(--purple-5);
+  --color-purple-6: var(--purple-6);
+  --color-purple-7: var(--purple-7);
+  --color-purple-8: var(--purple-8);
+  --color-purple-9: var(--purple-9);
+  --color-purple-10: var(--purple-10);
+  --color-purple-11: var(--purple-11);
+  --color-purple-12: var(--purple-12);
+
+  /* Semantic colors - Success (Green) */
+  --color-green-1: var(--green-1);
+  --color-green-2: var(--green-2);
+  --color-green-3: var(--green-3);
+  --color-green-4: var(--green-4);
+  --color-green-5: var(--green-5);
+  --color-green-6: var(--green-6);
+  --color-green-7: var(--green-7);
+  --color-green-8: var(--green-8);
+  --color-green-9: var(--green-9);
+  --color-green-10: var(--green-10);
+  --color-green-11: var(--green-11);
+  --color-green-12: var(--green-12);
+
+  /* Semantic colors - Warning (Orange) */
+  --color-orange-1: var(--orange-1);
+  --color-orange-2: var(--orange-2);
+  --color-orange-3: var(--orange-3);
+  --color-orange-4: var(--orange-4);
+  --color-orange-5: var(--orange-5);
+  --color-orange-6: var(--orange-6);
+  --color-orange-7: var(--orange-7);
+  --color-orange-8: var(--orange-8);
+  --color-orange-9: var(--orange-9);
+  --color-orange-10: var(--orange-10);
+  --color-orange-11: var(--orange-11);
+  --color-orange-12: var(--orange-12);
+
+  /* Semantic colors - Error (Red) */
+  --color-red-1: var(--red-1);
+  --color-red-2: var(--red-2);
+  --color-red-3: var(--red-3);
+  --color-red-4: var(--red-4);
+  --color-red-5: var(--red-5);
+  --color-red-6: var(--red-6);
+  --color-red-7: var(--red-7);
+  --color-red-8: var(--red-8);
+  --color-red-9: var(--red-9);
+  --color-red-10: var(--red-10);
+  --color-red-11: var(--red-11);
+  --color-red-12: var(--red-12);
+
+  /* Semantic mapping */
+  --color-background: var(--slate-1);
+  --color-foreground: var(--slate-12);
+  --color-muted: var(--slate-11);
+  --color-muted-foreground: var(--slate-9);
+  --color-border: var(--slate-6);
+  --color-border-hover: var(--slate-7);
+  --color-input: var(--slate-3);
+  --color-input-focus: var(--slate-4);
+  --color-ring: var(--cyan-8);
+  --color-ring-offset: var(--slate-1);
+
+  /* Primary (Cyan) */
+  --color-primary: var(--cyan-9);
+  --color-primary-foreground: var(--cyan-1);
+  --color-primary-hover: var(--cyan-10);
+  --color-primary-active: var(--cyan-11);
+  --color-primary-muted: var(--cyan-3);
+
+  /* Secondary (Purple) */
+  --color-secondary: var(--purple-9);
+  --color-secondary-foreground: var(--purple-1);
+  --color-secondary-hover: var(--purple-10);
+  --color-secondary-active: var(--purple-11);
+  --color-secondary-muted: var(--purple-3);
+
+  /* Accent (Cyan for interactive highlights) */
+  --color-accent: var(--cyan-4);
+  --color-accent-foreground: var(--cyan-12);
+
+  /* Destructive (Red) */
+  --color-destructive: var(--red-9);
+  --color-destructive-foreground: var(--red-1);
+  --color-destructive-hover: var(--red-10);
+  --color-destructive-muted: var(--red-3);
+
+  /* Success (Green) */
+  --color-success: var(--green-9);
+  --color-success-foreground: var(--green-1);
+  --color-success-hover: var(--green-10);
+  --color-success-muted: var(--green-3);
+
+  /* Warning (Orange) */
+  --color-warning: var(--orange-9);
+  --color-warning-foreground: var(--orange-1);
+  --color-warning-hover: var(--orange-10);
+  --color-warning-muted: var(--orange-3);
+
+  /* Info (Purple) */
+  --color-info: var(--purple-9);
+  --color-info-foreground: var(--purple-1);
+  --color-info-hover: var(--purple-10);
+  --color-info-muted: var(--purple-3);
+
+  /* Card/Surface */
+  --color-card: var(--slate-2);
+  --color-card-foreground: var(--slate-12);
+  --color-card-hover: var(--slate-3);
+  --color-popover: var(--slate-1);
+  --color-popover-foreground: var(--slate-12);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+}
+
+.dark {
+  --color-background: var(--slate-1);
+  --color-foreground: var(--slate-12);
+  --color-muted: var(--slate-11);
+  --color-muted-foreground: var(--slate-9);
+  --color-border: var(--slate-6);
+  --color-border-hover: var(--slate-7);
+  --color-input: var(--slate-3);
+  --color-input-focus: var(--slate-4);
+  --color-ring: var(--cyan-8);
+  --color-ring-offset: var(--slate-1);
+
+  --color-card: var(--slate-2);
+  --color-card-foreground: var(--slate-12);
+  --color-card-hover: var(--slate-3);
+  --color-popover: var(--slate-1);
+  --color-popover-foreground: var(--slate-12);
+}
+
+/* Base styles */
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-feature-settings: 'rlig' 1, 'calt' 1;
+}
+
+/* Focus visible styles */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-primary-muted);
+  color: var(--color-primary);
+}

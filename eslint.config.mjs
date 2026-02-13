@@ -6,10 +6,9 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // Configure jsx-a11y rules without redefining the plugin
+  // (eslint-config-next already includes jsx-a11y plugin)
   {
-    plugins: {
-      "jsx-a11y": jsxA11y,
-    },
     rules: {
       // Accessibility - strict mode per PRD Section 6
       "jsx-a11y/alt-text": "error",

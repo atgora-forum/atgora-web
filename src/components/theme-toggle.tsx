@@ -7,7 +7,7 @@
 
 import { useTheme } from 'next-themes'
 import { Moon, Sun } from '@phosphor-icons/react'
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface ThemeToggleProps {
@@ -19,9 +19,11 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   const [mounted, setMounted] = useState(false)
 
   // Prevent hydration mismatch
-  useEffect(() => {
+  /* eslint-disable react-hooks/set-state-in-effect -- Required for hydration mismatch prevention */
+  useLayoutEffect(() => {
     setMounted(true)
   }, [])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   if (!mounted) {
     return (

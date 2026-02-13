@@ -136,9 +136,10 @@
   --color-ring: var(--cyan-8);
   --color-ring-offset: var(--slate-1);
 
-  /* Primary (Cyan) - cyan-9 is bright, needs dark text for AA contrast */
+  /* Primary (Cyan) - cyan-9 is bright, needs dark text for AA contrast
+     Hardcoded from --slate-12 to avoid CSS var resolution issues in a11y tools */
   --color-primary: var(--cyan-9);
-  --color-primary-foreground: var(--slate-12);
+  --color-primary-foreground: #1c2024;
   --color-primary-hover: var(--cyan-10);
   --color-primary-active: var(--cyan-11);
   --color-primary-muted: var(--cyan-3);

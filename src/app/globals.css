@@ -127,8 +127,8 @@
   /* Semantic mapping */
   --color-background: var(--slate-1);
   --color-foreground: var(--slate-12);
-  --color-muted: var(--slate-11);
-  --color-muted-foreground: var(--slate-9);
+  --color-muted: var(--slate-3);
+  --color-muted-foreground: var(--slate-11);
   --color-border: var(--slate-6);
   --color-border-hover: var(--slate-7);
   --color-input: var(--slate-3);
@@ -205,8 +205,8 @@
   /* Dark mode uses Radix dark color scales */
   --color-background: var(--slate-dark-1);
   --color-foreground: var(--slate-dark-12);
-  --color-muted: var(--slate-dark-11);
-  --color-muted-foreground: var(--slate-dark-9);
+  --color-muted: var(--slate-dark-3);
+  --color-muted-foreground: var(--slate-dark-11);
   --color-border: var(--slate-dark-6);
   --color-border-hover: var(--slate-dark-7);
   --color-input: var(--slate-dark-3);

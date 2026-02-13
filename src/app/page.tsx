@@ -130,7 +130,7 @@ export default function Home() {
               Powered by Barazo v0.1.0 |{' '}
               <a
                 href="https://github.com/barazo-forum"
-                className="text-primary hover:text-primary-hover"
+                className="text-primary underline hover:text-primary-hover"
               >
                 GitHub
               </a>

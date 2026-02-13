@@ -146,6 +146,9 @@ jobs:
       - name: Install axe-core CLI
         run: pnpm add -g @axe-core/cli
 
+      - name: Sync Chrome and ChromeDriver versions
+        run: npx browser-driver-manager install chrome
+
       - name: Serve build
         run: npx serve dist -l 3000 &
 

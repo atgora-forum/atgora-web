@@ -138,14 +138,14 @@
 
   /* Primary (Cyan) */
   --color-primary: var(--cyan-9);
-  --color-primary-foreground: var(--cyan-1);
+  --color-primary-foreground: #fff;
   --color-primary-hover: var(--cyan-10);
   --color-primary-active: var(--cyan-11);
   --color-primary-muted: var(--cyan-3);
 
   /* Secondary (Purple) */
   --color-secondary: var(--purple-9);
-  --color-secondary-foreground: var(--purple-1);
+  --color-secondary-foreground: #fff;
   --color-secondary-hover: var(--purple-10);
   --color-secondary-active: var(--purple-11);
   --color-secondary-muted: var(--purple-3);
@@ -156,25 +156,25 @@
 
   /* Destructive (Red) */
   --color-destructive: var(--red-9);
-  --color-destructive-foreground: var(--red-1);
+  --color-destructive-foreground: #fff;
   --color-destructive-hover: var(--red-10);
   --color-destructive-muted: var(--red-3);
 
   /* Success (Green) */
   --color-success: var(--green-9);
-  --color-success-foreground: var(--green-1);
+  --color-success-foreground: #fff;
   --color-success-hover: var(--green-10);
   --color-success-muted: var(--green-3);
 
   /* Warning (Orange) */
   --color-warning: var(--orange-9);
-  --color-warning-foreground: var(--orange-1);
+  --color-warning-foreground: #fff;
   --color-warning-hover: var(--orange-10);
   --color-warning-muted: var(--orange-3);
 
   /* Info (Purple) */
   --color-info: var(--purple-9);
-  --color-info-foreground: var(--purple-1);
+  --color-info-foreground: #fff;
   --color-info-hover: var(--purple-10);
   --color-info-muted: var(--purple-3);
 

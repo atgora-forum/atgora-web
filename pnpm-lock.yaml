@@ -10,6 +10,9 @@ importers:
       '@phosphor-icons/react':
         specifier: ^2.1.7
         version: 2.1.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@radix-ui/colors':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@radix-ui/react-accordion':
         specifier: ^1.2.2
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1466,6 +1469,12 @@ packages:
       }
     engines: { node: '>=18' }
     hasBin: true
+
+  '@radix-ui/colors@3.0.0':
+    resolution:
+      {
+        integrity: sha512-FUOsGBkHrYJwCSEtWRCIfQbZG7q1e6DgxCIOe1SUQzDe/7rXXeA47s8yCn6fuTNQAj1Zq4oTFi9Yjp3wzElcxg==,
+      }
 
   '@radix-ui/number@1.1.1':
     resolution:
@@ -7828,6 +7837,8 @@ snapshots:
   '@playwright/test@1.58.2':
     dependencies:
       playwright: 1.58.2
+
+  '@radix-ui/colors@3.0.0': {}
 
   '@radix-ui/number@1.1.1': {}
 

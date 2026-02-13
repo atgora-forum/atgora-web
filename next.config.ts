@@ -20,11 +20,6 @@ const nextConfig: NextConfig = {
   // Enable React Compiler (stable in Next.js 16)
   reactCompiler: true,
 
-  // Turbopack configuration
-  turbopack: {
-    root: '/Users/gxjansen/Documents/Git/barazo-forum/barazo-web',
-  },
-
   // Environment variables available at build time
   env: {
     NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version || '0.1.0',

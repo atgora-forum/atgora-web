@@ -202,22 +202,23 @@
 }
 
 .dark {
-  --color-background: var(--slate-1);
-  --color-foreground: var(--slate-12);
-  --color-muted: var(--slate-11);
-  --color-muted-foreground: var(--slate-9);
-  --color-border: var(--slate-6);
-  --color-border-hover: var(--slate-7);
-  --color-input: var(--slate-3);
-  --color-input-focus: var(--slate-4);
-  --color-ring: var(--cyan-8);
-  --color-ring-offset: var(--slate-1);
+  /* Dark mode uses Radix dark color scales */
+  --color-background: var(--slate-dark-1);
+  --color-foreground: var(--slate-dark-12);
+  --color-muted: var(--slate-dark-11);
+  --color-muted-foreground: var(--slate-dark-9);
+  --color-border: var(--slate-dark-6);
+  --color-border-hover: var(--slate-dark-7);
+  --color-input: var(--slate-dark-3);
+  --color-input-focus: var(--slate-dark-4);
+  --color-ring: var(--cyan-dark-8);
+  --color-ring-offset: var(--slate-dark-1);
 
-  --color-card: var(--slate-2);
-  --color-card-foreground: var(--slate-12);
-  --color-card-hover: var(--slate-3);
-  --color-popover: var(--slate-1);
-  --color-popover-foreground: var(--slate-12);
+  --color-card: var(--slate-dark-2);
+  --color-card-foreground: var(--slate-dark-12);
+  --color-card-hover: var(--slate-dark-3);
+  --color-popover: var(--slate-dark-1);
+  --color-popover-foreground: var(--slate-dark-12);
 }
 
 /* Base styles */

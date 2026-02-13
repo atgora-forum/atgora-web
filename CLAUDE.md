@@ -6,18 +6,18 @@ The default frontend for Barazo forums. Communicates with the AppView backend ex
 
 ## Tech Stack
 
-| Component | Technology |
-|-----------|-----------|
-| Framework | Next.js 16 / React 19 / TypeScript (strict) |
-| Styling | TailwindCSS |
-| Components | shadcn/ui (Radix primitives) for admin; custom forum components |
-| Colors | Radix Colors (12-step system) + Flexoki (accent hues) |
-| Icons | Phosphor Icons (6 weights, replaces Lucide) |
-| Typography | Source Sans 3 / Source Code Pro (self-hosted, zero external DNS) |
-| Syntax highlighting | Shiki + Flexoki theme (SSR, dual light/dark) |
-| Testing | Vitest + vitest-axe + @axe-core/playwright |
-| Accessibility | WCAG 2.2 AA from first commit |
-| SEO | JSON-LD, OpenGraph, sitemaps, SSR |
+| Component           | Technology                                                       |
+| ------------------- | ---------------------------------------------------------------- |
+| Framework           | Next.js 16 / React 19 / TypeScript (strict)                      |
+| Styling             | TailwindCSS                                                      |
+| Components          | shadcn/ui (Radix primitives) for admin; custom forum components  |
+| Colors              | Radix Colors (12-step system) + Flexoki (accent hues)            |
+| Icons               | Phosphor Icons (6 weights, replaces Lucide)                      |
+| Typography          | Source Sans 3 / Source Code Pro (self-hosted, zero external DNS) |
+| Syntax highlighting | Shiki + Flexoki theme (SSR, dual light/dark)                     |
+| Testing             | Vitest + vitest-axe + @axe-core/playwright                       |
+| Accessibility       | WCAG 2.2 AA from first commit                                    |
+| SEO                 | JSON-LD, OpenGraph, sitemaps, SSR                                |
 
 ## What This Repo Does
 
@@ -65,6 +65,7 @@ Architectural decisions and detailed standards live in the workspace, not in thi
 **Master plan:** `~/Documents/CoreNotes/Workspaces/Barazo/plans/2026-02-09-mvp-implementation.md`
 
 Before starting any milestone, read the master plan's **Execution Strategy** section. It specifies:
+
 - Which skill to invoke (`subagent-driven-development` or `executing-plans`)
 - Which model to use per milestone (the plan has a per-milestone model map)
 - Review gates (spec compliance + code quality) that must pass before marking tasks complete

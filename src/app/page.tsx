@@ -39,20 +39,17 @@ export default function Home() {
         <section className="mx-auto max-w-3xl space-y-8">
           <div className="space-y-4 text-center">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              Community Forums on the{' '}
-              <span className="text-primary">AT Protocol</span>
+              Community Forums on the <span className="text-primary">AT Protocol</span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Portable identity. User data ownership. Cross-community reputation.
-              The forum platform built for the decentralized web.
+              Portable identity. User data ownership. Cross-community reputation. The forum platform
+              built for the decentralized web.
             </p>
           </div>
 
           {/* Design System Demo */}
           <div className="grid gap-6 rounded-lg border border-border bg-card p-6">
-            <h2 className="text-2xl font-semibold text-card-foreground">
-              Design System Active
-            </h2>
+            <h2 className="text-2xl font-semibold text-card-foreground">Design System Active</h2>
 
             {/* Color Palette Demo */}
             <div className="space-y-3">
@@ -66,9 +63,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-8 w-8 rounded bg-secondary" />
-                  <span className="text-xs text-muted-foreground">
-                    Secondary
-                  </span>
+                  <span className="text-xs text-muted-foreground">Secondary</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="h-8 w-8 rounded bg-success" />
@@ -95,9 +90,7 @@ export default function Home() {
                 <p className="text-xl font-semibold">Heading XL - Semibold</p>
                 <p className="text-lg font-medium">Heading LG - Medium</p>
                 <p className="text-base">Body text - Regular</p>
-                <p className="text-sm text-muted-foreground">
-                  Small text - Muted
-                </p>
+                <p className="text-sm text-muted-foreground">Small text - Muted</p>
               </div>
             </div>
 
@@ -113,9 +106,7 @@ export default function Home() {
 
             {/* Button Variants */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground">
-                Button Styles
-              </h3>
+              <h3 className="text-sm font-medium text-muted-foreground">Button Styles</h3>
               <div className="flex flex-wrap gap-3">
                 <button className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
                   Primary Button

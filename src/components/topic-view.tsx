@@ -1,5 +1,6 @@
 /**
  * TopicView - Displays a full topic post with content and metadata.
+ * Includes reactions, moderation controls, report button, and self-labels.
  * Used on the topic detail page.
  * @see specs/prd-web.md Section 4 (Topic Components)
  */
@@ -10,13 +11,44 @@ import type { Topic } from '@/lib/api/types'
 import { cn } from '@/lib/utils'
 import { formatRelativeTime, formatCompactNumber } from '@/lib/format'
 import { MarkdownContent } from './markdown-content'
+import { ReactionBar } from './reaction-bar'
+import { ModerationControls, type ModerationAction } from './moderation-controls'
+import { ReportDialog, type ReportSubmission } from './report-dialog'
+import { SelfLabelIndicator } from './self-label-indicator'
+
+interface ReactionData {
+  type: string
+  count: number
+  reacted: boolean
+}
 
 interface TopicViewProps {
   topic: Topic
+  reactions?: ReactionData[]
+  onReactionToggle?: (type: string) => void
+  isModerator?: boolean
+  isLocked?: boolean
+  isPinned?: boolean
+  onModerationAction?: (action: ModerationAction) => void
+  canReport?: boolean
+  onReport?: (report: ReportSubmission) => void
+  selfLabels?: string[]
   className?: string
 }
 
-export function TopicView({ topic, className }: TopicViewProps) {
+export function TopicView({
+  topic,
+  reactions,
+  onReactionToggle,
+  isModerator,
+  isLocked,
+  isPinned,
+  onModerationAction,
+  canReport,
+  onReport,
+  selfLabels,
+  className,
+}: TopicViewProps) {
   const headingId = `topic-heading-${topic.rkey}`
 
   return (
@@ -56,15 +88,36 @@ export function TopicView({ topic, className }: TopicViewProps) {
             </Link>
           ))}
         </div>
+
+        {/* Moderation controls */}
+        {isModerator && onModerationAction && (
+          <div className="mt-3">
+            <ModerationControls
+              isModerator={true}
+              isLocked={isLocked}
+              isPinned={isPinned}
+              onAction={onModerationAction}
+            />
+          </div>
+        )}
       </div>
 
       {/* Content */}
       <div className="p-4 sm:p-6">
-        <MarkdownContent content={topic.content} />
+        {selfLabels && selfLabels.length > 0 ? (
+          <SelfLabelIndicator labels={selfLabels}>
+            <MarkdownContent content={topic.content} />
+          </SelfLabelIndicator>
+        ) : (
+          <MarkdownContent content={topic.content} />
+        )}
       </div>
 
-      {/* Footer stats */}
+      {/* Footer: reactions + stats + report */}
       <div className="flex items-center gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-6">
+        {reactions && onReactionToggle && (
+          <ReactionBar reactions={reactions} onToggle={onReactionToggle} />
+        )}
         <span
           className="flex items-center gap-1.5"
           aria-label={`${formatCompactNumber(topic.replyCount)} replies`}
@@ -83,6 +136,12 @@ export function TopicView({ topic, className }: TopicViewProps) {
           <Clock className="h-4 w-4" weight="regular" aria-hidden="true" />
           Last activity {formatRelativeTime(topic.lastActivityAt)}
         </span>
+
+        {canReport && onReport && (
+          <span className="ml-auto">
+            <ReportDialog subjectUri={topic.uri} onSubmit={onReport} />
+          </span>
+        )}
       </div>
     </article>
   )

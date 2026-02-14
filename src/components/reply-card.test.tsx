@@ -2,14 +2,17 @@
  * Tests for ReplyCard component.
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'vitest-axe'
 import { ReplyCard } from './reply-card'
 import { mockReplies } from '@/mocks/data'
 
 const reply = mockReplies[0]!
 const nestedReply = mockReplies[1]! // depth 1
+
+const mockReactions = [{ type: 'like', count: 3, reacted: true }]
 
 describe('ReplyCard', () => {
   it('renders reply content', () => {
@@ -63,5 +66,42 @@ describe('ReplyCard', () => {
     const { container } = render(<ReplyCard reply={reply} postNumber={2} />)
     const results = await axe(container)
     expect(results).toHaveNoViolations()
+  })
+
+  it('renders reaction bar when reactions are provided', () => {
+    render(
+      <ReplyCard
+        reply={reply}
+        postNumber={2}
+        reactions={mockReactions}
+        onReactionToggle={vi.fn()}
+      />
+    )
+    expect(screen.getByRole('group', { name: 'Reactions' })).toBeInTheDocument()
+  })
+
+  it('renders report button when canReport is true', () => {
+    render(<ReplyCard reply={reply} postNumber={2} canReport={true} onReport={vi.fn()} />)
+    expect(screen.getByRole('button', { name: /report/i })).toBeInTheDocument()
+  })
+
+  it('renders self-label indicator when selfLabels are provided', () => {
+    render(<ReplyCard reply={reply} postNumber={2} selfLabels={['graphic-media']} />)
+    expect(screen.getByText(/content warning/i)).toBeInTheDocument()
+  })
+
+  it('calls onReactionToggle when reaction is clicked', async () => {
+    const user = userEvent.setup()
+    const onToggle = vi.fn()
+    render(
+      <ReplyCard
+        reply={reply}
+        postNumber={2}
+        reactions={mockReactions}
+        onReactionToggle={onToggle}
+      />
+    )
+    await user.click(screen.getByRole('button', { name: /like/i }))
+    expect(onToggle).toHaveBeenCalledWith('like')
   })
 })

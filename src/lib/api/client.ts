@@ -9,8 +9,10 @@ import type {
   CategoryWithTopicCount,
   CommunitySettings,
   CommunityStats,
+  CreateTopicInput,
   Topic,
   TopicsResponse,
+  UpdateTopicInput,
   RepliesResponse,
   PaginationParams,
 } from './types'
@@ -20,6 +22,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 interface FetchOptions {
   headers?: Record<string, string>
   signal?: AbortSignal
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  body?: unknown
 }
 
 class ApiError extends Error {
@@ -35,11 +39,13 @@ class ApiError extends Error {
 async function apiFetch<T>(path: string, options: FetchOptions = {}): Promise<T> {
   const url = `${API_URL}${path}`
   const response = await fetch(url, {
+    method: options.method ?? 'GET',
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
     signal: options.signal,
+    ...(options.body !== undefined ? { body: JSON.stringify(options.body) } : {}),
   })
 
   if (!response.ok) {
@@ -93,6 +99,39 @@ export function getTopics(
 
 export function getTopicByRkey(rkey: string, options?: FetchOptions): Promise<Topic> {
   return apiFetch<Topic>(`/api/topics/by-rkey/${encodeURIComponent(rkey)}`, options)
+}
+
+export function createTopic(
+  input: CreateTopicInput,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<Topic> {
+  return apiFetch<Topic>('/api/topics', {
+    ...options,
+    method: 'POST',
+    headers: {
+      ...options?.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: input,
+  })
+}
+
+export function updateTopic(
+  rkey: string,
+  input: UpdateTopicInput,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<Topic> {
+  return apiFetch<Topic>(`/api/topics/${encodeURIComponent(rkey)}`, {
+    ...options,
+    method: 'PUT',
+    headers: {
+      ...options?.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: input,
+  })
 }
 
 // --- Reply endpoints ---

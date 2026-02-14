@@ -83,6 +83,61 @@ export const handlers = [
     })
   }),
 
+  // POST /api/topics (create)
+  http.post(`${API_URL}/api/topics`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = (await request.json()) as {
+      title?: string
+      content?: string
+      category?: string
+    }
+    if (!body.title || !body.content || !body.category) {
+      return HttpResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    const rkey = `3kf${Date.now().toString(36)}`
+    const now = new Date().toISOString()
+    const newTopic = {
+      uri: `at://did:plc:mock-user/forum.barazo.topic.post/${rkey}`,
+      rkey,
+      authorDid: 'did:plc:mock-user',
+      title: body.title,
+      content: body.content,
+      contentFormat: null,
+      category: body.category,
+      tags: [],
+      communityDid: 'did:plc:test-community-123',
+      cid: `bafyreib-${rkey}`,
+      replyCount: 0,
+      reactionCount: 0,
+      lastActivityAt: now,
+      createdAt: now,
+      indexedAt: now,
+    }
+    return HttpResponse.json(newTopic, { status: 201 })
+  }),
+
+  // PUT /api/topics/:rkey (update)
+  http.put(`${API_URL}/api/topics/:rkey`, async ({ request, params }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const rkey = params['rkey'] as string
+    const topic = mockTopics.find((t) => t.rkey === rkey)
+    if (!topic) {
+      return HttpResponse.json({ error: 'Topic not found' }, { status: 404 })
+    }
+
+    const body = (await request.json()) as Record<string, unknown>
+    return HttpResponse.json({ ...topic, ...body })
+  }),
+
   // GET /api/topics/:uri (single topic by AT URI)
   http.get(`${API_URL}/api/topics/:uri`, ({ params }) => {
     const uri = decodeURIComponent(params['uri'] as string)

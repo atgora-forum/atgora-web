@@ -90,7 +90,10 @@ export function ForumLayout({ children, sidebar }: ForumLayoutProps) {
         <div className="container flex items-center justify-between py-6 text-sm text-muted-foreground">
           <p>
             Powered by{' '}
-            <Link href="https://barazo.forum" className="text-primary hover:text-primary-hover">
+            <Link
+              href="https://barazo.forum"
+              className="text-primary underline decoration-primary/50 hover:text-primary-hover hover:decoration-primary"
+            >
               Barazo
             </Link>
           </p>

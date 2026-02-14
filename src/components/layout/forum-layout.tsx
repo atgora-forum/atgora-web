@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { SkipLinks } from '@/components/skip-links'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { SearchInput } from '@/components/search-input'
+import { NotificationBell } from '@/components/notification-bell'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr'
 
 interface ForumLayoutProps {
@@ -60,6 +61,7 @@ export function ForumLayout({ children, sidebar }: ForumLayoutProps) {
             >
               <MagnifyingGlass className="h-5 w-5" weight="regular" aria-hidden="true" />
             </Link>
+            <NotificationBell unreadCount={0} />
             <ThemeToggle />
           </div>
         </div>

@@ -8,6 +8,7 @@ import type {
   CategoryWithTopicCount,
   Topic,
   Reply,
+  Notification,
   SearchResult,
 } from '@/lib/api/types'
 
@@ -260,6 +261,59 @@ export const mockSearchResults: SearchResult[] = [
     rank: 0.71,
     rootUri: mockTopics[0]!.uri,
     rootTitle: 'Welcome to Barazo Forums',
+  },
+]
+
+// --- Notifications ---
+
+export const mockNotifications: Notification[] = [
+  {
+    id: 'notif-1',
+    type: 'reply',
+    userDid: mockUsers[0]!.did,
+    actorDid: mockUsers[1]!.did,
+    actorHandle: mockUsers[1]!.handle,
+    subjectUri: mockTopics[0]!.uri,
+    subjectTitle: 'Welcome to Barazo Forums',
+    message: 'bob.bsky.social replied to your topic',
+    read: false,
+    createdAt: NOW,
+  },
+  {
+    id: 'notif-2',
+    type: 'reaction',
+    userDid: mockUsers[0]!.did,
+    actorDid: mockUsers[2]!.did,
+    actorHandle: mockUsers[2]!.handle,
+    subjectUri: mockTopics[0]!.uri,
+    subjectTitle: 'Welcome to Barazo Forums',
+    message: 'carol.example.com reacted to your topic',
+    read: false,
+    createdAt: YESTERDAY,
+  },
+  {
+    id: 'notif-3',
+    type: 'mention',
+    userDid: mockUsers[0]!.did,
+    actorDid: mockUsers[3]!.did,
+    actorHandle: mockUsers[3]!.handle,
+    subjectUri: `at://${mockUsers[3]!.did}/forum.barazo.reply.post/3kf6ddd`,
+    subjectTitle: null,
+    message: 'dave.bsky.social mentioned you in a reply',
+    read: true,
+    createdAt: YESTERDAY,
+  },
+  {
+    id: 'notif-4',
+    type: 'moderation',
+    userDid: mockUsers[0]!.did,
+    actorDid: mockUsers[4]!.did,
+    actorHandle: mockUsers[4]!.handle,
+    subjectUri: mockTopics[0]!.uri,
+    subjectTitle: 'Welcome to Barazo Forums',
+    message: 'Your topic was pinned by a moderator',
+    read: true,
+    createdAt: TWO_DAYS_AGO,
   },
 ]
 

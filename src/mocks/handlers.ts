@@ -11,11 +11,44 @@ import {
   mockTopics,
   mockReplies,
   mockSearchResults,
+  mockNotifications,
 } from './data'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 
 export const handlers = [
+  // GET /api/notifications
+  http.get(`${API_URL}/api/notifications`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const url = new URL(request.url)
+    const limitParam = url.searchParams.get('limit')
+    const limit = limitParam ? parseInt(limitParam, 10) : 20
+
+    const limited = mockNotifications.slice(0, limit)
+    const hasMore = mockNotifications.length > limit
+    const unreadCount = mockNotifications.filter((n) => !n.read).length
+
+    return HttpResponse.json({
+      notifications: limited,
+      cursor: hasMore ? 'mock-cursor-next' : null,
+      unreadCount,
+    })
+  }),
+
+  // PUT /api/notifications/read
+  http.put(`${API_URL}/api/notifications/read`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    return new HttpResponse(null, { status: 204 })
+  }),
+
   // GET /api/categories
   http.get(`${API_URL}/api/categories`, () => {
     return HttpResponse.json({ categories: mockCategories })

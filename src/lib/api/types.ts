@@ -185,6 +185,29 @@ export interface AuthUser {
   handle: string
 }
 
+// --- Notifications ---
+
+export type NotificationType = 'reply' | 'reaction' | 'mention' | 'moderation'
+
+export interface Notification {
+  id: string
+  type: NotificationType
+  userDid: string
+  actorDid: string
+  actorHandle: string
+  subjectUri: string
+  subjectTitle: string | null
+  message: string
+  read: boolean
+  createdAt: string
+}
+
+export interface NotificationsResponse {
+  notifications: Notification[]
+  cursor: string | null
+  unreadCount: number
+}
+
 // --- Shared ---
 
 export type MaturityRating = 'safe' | 'mature' | 'adult'

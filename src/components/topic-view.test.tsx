@@ -2,13 +2,19 @@
  * Tests for TopicView component.
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axe } from 'vitest-axe'
 import { TopicView } from './topic-view'
 import { mockTopics, mockUsers } from '@/mocks/data'
 
 const topic = mockTopics[0]!
+
+const mockReactions = [
+  { type: 'like', count: 5, reacted: false },
+  { type: 'celebrate', count: 2, reacted: true },
+]
 
 describe('TopicView', () => {
   it('renders topic title as h2', () => {
@@ -67,5 +73,38 @@ describe('TopicView', () => {
     const { container } = render(<TopicView topic={topic} />)
     const results = await axe(container)
     expect(results).toHaveNoViolations()
+  })
+
+  it('renders reaction bar when reactions are provided', () => {
+    render(<TopicView topic={topic} reactions={mockReactions} onReactionToggle={vi.fn()} />)
+    expect(screen.getByRole('group', { name: 'Reactions' })).toBeInTheDocument()
+  })
+
+  it('does not render reactions when not provided', () => {
+    render(<TopicView topic={topic} />)
+    expect(screen.queryByRole('group', { name: 'Reactions' })).not.toBeInTheDocument()
+  })
+
+  it('renders moderation controls for moderators', () => {
+    render(<TopicView topic={topic} isModerator={true} onModerationAction={vi.fn()} />)
+    expect(screen.getByRole('group', { name: /moderation/i })).toBeInTheDocument()
+  })
+
+  it('renders report button when canReport is true', () => {
+    render(<TopicView topic={topic} canReport={true} onReport={vi.fn()} />)
+    expect(screen.getByRole('button', { name: /report/i })).toBeInTheDocument()
+  })
+
+  it('renders self-label indicator when selfLabels are provided', () => {
+    render(<TopicView topic={topic} selfLabels={['sexual']} />)
+    expect(screen.getByText(/content warning/i)).toBeInTheDocument()
+  })
+
+  it('calls onReactionToggle when reaction is clicked', async () => {
+    const user = userEvent.setup()
+    const onToggle = vi.fn()
+    render(<TopicView topic={topic} reactions={mockReactions} onReactionToggle={onToggle} />)
+    await user.click(screen.getByRole('button', { name: /like/i }))
+    expect(onToggle).toHaveBeenCalledWith('like')
   })
 })

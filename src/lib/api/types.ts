@@ -1,0 +1,181 @@
+/**
+ * API response types matching barazo-api schemas.
+ * These mirror the Zod-validated responses from the API.
+ * @see ~/Documents/Git/barazo-forum/barazo-api/src/routes/
+ */
+
+// --- Categories ---
+
+export interface Category {
+  id: string
+  slug: string
+  name: string
+  description: string | null
+  parentId: string | null
+  sortOrder: number
+  communityDid: string
+  maturityRating: MaturityRating
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CategoryTreeNode extends Category {
+  children: CategoryTreeNode[]
+}
+
+export interface CategoryWithTopicCount extends Category {
+  topicCount: number
+}
+
+export interface CategoriesResponse {
+  categories: CategoryTreeNode[]
+}
+
+// --- Topics ---
+
+export interface Topic {
+  uri: string
+  rkey: string
+  authorDid: string
+  title: string
+  content: string
+  contentFormat: string | null
+  category: string
+  tags: string[] | null
+  communityDid: string
+  cid: string
+  replyCount: number
+  reactionCount: number
+  lastActivityAt: string
+  createdAt: string
+  indexedAt: string
+}
+
+export interface TopicsResponse {
+  topics: Topic[]
+  cursor: string | null
+}
+
+// --- Replies ---
+
+export interface Reply {
+  uri: string
+  rkey: string
+  authorDid: string
+  content: string
+  contentFormat: string | null
+  rootUri: string
+  rootCid: string
+  parentUri: string
+  parentCid: string
+  communityDid: string
+  cid: string
+  depth: number
+  reactionCount: number
+  createdAt: string
+  indexedAt: string
+}
+
+export interface RepliesResponse {
+  replies: Reply[]
+  cursor: string | null
+}
+
+// --- Reactions ---
+
+export interface Reaction {
+  uri: string
+  rkey: string
+  authorDid: string
+  subjectUri: string
+  subjectCid: string
+  type: string
+  communityDid: string
+  cid: string
+  createdAt: string
+}
+
+export interface ReactionsResponse {
+  reactions: Reaction[]
+  cursor: string | null
+}
+
+// --- Search ---
+
+export interface SearchResult {
+  type: 'topic' | 'reply'
+  uri: string
+  rkey: string
+  authorDid: string
+  title: string | null
+  content: string
+  category: string | null
+  communityDid: string
+  replyCount: number | null
+  reactionCount: number
+  createdAt: string
+  rank: number
+  rootUri: string | null
+  rootTitle: string | null
+}
+
+export interface SearchResponse {
+  results: SearchResult[]
+  cursor: string | null
+  total: number
+  searchMode: 'fulltext' | 'hybrid'
+}
+
+// --- Community ---
+
+export interface CommunitySettings {
+  id: string
+  initialized: boolean
+  communityDid: string | null
+  adminDid: string | null
+  communityName: string
+  maturityRating: MaturityRating
+  reactionSet: string[]
+  communityDescription: string | null
+  communityLogoUrl: string | null
+  primaryColor: string | null
+  accentColor: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CommunityStats {
+  topicCount: number
+  replyCount: number
+  userCount: number
+  categoryCount: number
+  reportCount: number
+  recentTopics: number
+  recentReplies: number
+  recentUsers: number
+}
+
+// --- Auth ---
+
+export interface AuthSession {
+  accessToken: string
+  expiresAt: string
+  did: string
+  handle: string
+}
+
+export interface AuthUser {
+  did: string
+  handle: string
+}
+
+// --- Shared ---
+
+export type MaturityRating = 'safe' | 'mature' | 'adult'
+
+// --- Pagination ---
+
+export interface PaginationParams {
+  limit?: number
+  cursor?: string
+}

@@ -256,6 +256,7 @@ export interface FirstPostQueueItem {
   content: string
   accountAge: string
   crossCommunityCount: number
+  bannedFromOtherCommunities: number
   status: 'pending' | 'approved' | 'rejected'
   communityDid: string
   createdAt: string

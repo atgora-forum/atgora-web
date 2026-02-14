@@ -133,6 +133,46 @@ describe('AdminModerationPage', () => {
     })
   })
 
+  it('shows batch action controls in first post queue', async () => {
+    const user = userEvent.setup()
+    render(<AdminModerationPage />)
+    await user.click(screen.getByRole('tab', { name: /first post/i }))
+    await waitFor(() => {
+      expect(screen.getByText(/newbie\.bsky\.social/i)).toBeInTheDocument()
+    })
+    // Select all checkbox
+    const selectAll = screen.getByRole('checkbox', { name: /select all/i })
+    expect(selectAll).toBeInTheDocument()
+    // Individual checkboxes for each item
+    const itemCheckboxes = screen.getAllByRole('checkbox').filter((cb) => cb !== selectAll)
+    expect(itemCheckboxes.length).toBe(2)
+  })
+
+  it('shows batch approve/reject buttons when items are selected', async () => {
+    const user = userEvent.setup()
+    render(<AdminModerationPage />)
+    await user.click(screen.getByRole('tab', { name: /first post/i }))
+    await waitFor(() => {
+      expect(screen.getByText(/newbie\.bsky\.social/i)).toBeInTheDocument()
+    })
+    // Batch buttons should not be visible when nothing is selected
+    expect(screen.queryByRole('button', { name: /approve selected/i })).not.toBeInTheDocument()
+    // Select all items
+    await user.click(screen.getByRole('checkbox', { name: /select all/i }))
+    // Batch buttons should now be visible
+    expect(screen.getByRole('button', { name: /approve selected/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /reject selected/i })).toBeInTheDocument()
+  })
+
+  it('shows cross-community ban warning in first post queue', async () => {
+    const user = userEvent.setup()
+    render(<AdminModerationPage />)
+    await user.click(screen.getByRole('tab', { name: /first post/i }))
+    await waitFor(() => {
+      expect(screen.getByText(/banned from 1 other community/i)).toBeInTheDocument()
+    })
+  })
+
   it('passes axe accessibility check', async () => {
     const { container } = render(<AdminModerationPage />)
     await waitFor(() => {

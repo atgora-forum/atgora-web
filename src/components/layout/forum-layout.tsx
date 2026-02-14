@@ -1,7 +1,7 @@
 /**
  * Forum Layout (CommunityLayout)
  * Wraps all forum pages with header, sidebar, main content area, and footer.
- * Header: logo, search placeholder, theme toggle, user menu placeholder.
+ * Header: logo, search, theme toggle, user menu placeholder.
  * @see specs/prd-web.md Section 4 (Layout Components)
  */
 
@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { SkipLinks } from '@/components/skip-links'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { SearchInput } from '@/components/search-input'
 import { MagnifyingGlass } from '@phosphor-icons/react/dist/ssr'
 
 interface ForumLayoutProps {
@@ -46,13 +47,7 @@ export function ForumLayout({ children, sidebar }: ForumLayoutProps) {
 
           {/* Search */}
           <div className="hidden flex-1 sm:flex sm:max-w-md">
-            <Link
-              href="/search"
-              className="flex h-9 w-full items-center gap-2 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground transition-colors hover:bg-card-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            >
-              <MagnifyingGlass className="h-4 w-4" weight="regular" aria-hidden="true" />
-              <span>Search topics...</span>
-            </Link>
+            <SearchInput className="w-full" />
           </div>
 
           {/* Actions */}

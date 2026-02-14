@@ -3,7 +3,13 @@
  * matching barazo-api response schemas.
  */
 
-import type { CategoryTreeNode, CategoryWithTopicCount, Topic, Reply } from '@/lib/api/types'
+import type {
+  CategoryTreeNode,
+  CategoryWithTopicCount,
+  Topic,
+  Reply,
+  SearchResult,
+} from '@/lib/api/types'
 
 const COMMUNITY_DID = 'did:plc:test-community-123'
 const NOW = '2026-02-14T12:00:00.000Z'
@@ -203,6 +209,61 @@ export const mockTopics: Topic[] = [
 
 const TOPIC_URI = mockTopics[0]!.uri
 const TOPIC_CID = mockTopics[0]!.cid
+
+// --- Search Results ---
+
+export const mockSearchResults: SearchResult[] = [
+  {
+    type: 'topic',
+    uri: mockTopics[0]!.uri,
+    rkey: mockTopics[0]!.rkey,
+    authorDid: mockTopics[0]!.authorDid,
+    title: 'Welcome to Barazo Forums',
+    content: 'This is the first topic on our new federated forum platform.',
+    category: 'general',
+    communityDid: COMMUNITY_DID,
+    replyCount: 5,
+    reactionCount: 12,
+    createdAt: TWO_DAYS_AGO,
+    rank: 0.95,
+    rootUri: null,
+    rootTitle: null,
+  },
+  {
+    type: 'topic',
+    uri: mockTopics[1]!.uri,
+    rkey: mockTopics[1]!.rkey,
+    authorDid: mockTopics[1]!.authorDid,
+    title: 'Building with the AT Protocol',
+    content: 'A deep dive into building applications on the AT Protocol.',
+    category: 'development',
+    communityDid: COMMUNITY_DID,
+    replyCount: 8,
+    reactionCount: 23,
+    createdAt: TWO_DAYS_AGO,
+    rank: 0.82,
+    rootUri: null,
+    rootTitle: null,
+  },
+  {
+    type: 'reply',
+    uri: `at://${mockUsers[1]!.did}/forum.barazo.reply.post/3kf6aaa`,
+    rkey: '3kf6aaa',
+    authorDid: mockUsers[1]!.did,
+    title: null,
+    content: 'Welcome! Excited to see this forum take shape.',
+    category: null,
+    communityDid: COMMUNITY_DID,
+    replyCount: null,
+    reactionCount: 4,
+    createdAt: TWO_DAYS_AGO,
+    rank: 0.71,
+    rootUri: mockTopics[0]!.uri,
+    rootTitle: 'Welcome to Barazo Forums',
+  },
+]
+
+// --- Replies ---
 
 export const mockReplies: Reply[] = [
   {

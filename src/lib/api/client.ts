@@ -6,6 +6,7 @@
 
 import type {
   CategoriesResponse,
+  CategoryTreeNode,
   CategoryWithTopicCount,
   CommunitySettings,
   CommunityStats,
@@ -17,6 +18,13 @@ import type {
   SearchResponse,
   NotificationsResponse,
   PaginationParams,
+  ModerationReportsResponse,
+  FirstPostQueueResponse,
+  ModerationLogResponse,
+  ModerationThresholds,
+  ReportedUsersResponse,
+  AdminUsersResponse,
+  MaturityRating,
 } from './types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
@@ -226,6 +234,212 @@ export function getCommunityStats(
       ...options?.headers,
       Authorization: `Bearer ${accessToken}`,
     },
+  })
+}
+
+// --- Admin category endpoints ---
+
+export function createCategory(
+  input: {
+    name: string
+    slug: string
+    description: string | null
+    parentId: string | null
+    sortOrder: number
+    maturityRating: MaturityRating
+  },
+  accessToken: string,
+  options?: FetchOptions
+): Promise<CategoryTreeNode> {
+  return apiFetch<CategoryTreeNode>('/api/admin/categories', {
+    ...options,
+    method: 'POST',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: input,
+  })
+}
+
+export function updateCategory(
+  id: string,
+  input: Partial<{
+    name: string
+    slug: string
+    description: string | null
+    parentId: string | null
+    sortOrder: number
+    maturityRating: MaturityRating
+  }>,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<CategoryTreeNode> {
+  return apiFetch<CategoryTreeNode>(`/api/admin/categories/${encodeURIComponent(id)}`, {
+    ...options,
+    method: 'PUT',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: input,
+  })
+}
+
+export function deleteCategory(
+  id: string,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>(`/api/admin/categories/${encodeURIComponent(id)}`, {
+    ...options,
+    method: 'DELETE',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+// --- Moderation endpoints ---
+
+export function getModerationReports(
+  accessToken: string,
+  params: PaginationParams = {},
+  options?: FetchOptions
+): Promise<ModerationReportsResponse> {
+  const query = buildQuery({ limit: params.limit, cursor: params.cursor })
+  return apiFetch<ModerationReportsResponse>(`/api/moderation/reports${query}`, {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+export function resolveReport(
+  id: string,
+  resolution: string,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>(`/api/moderation/reports/${encodeURIComponent(id)}`, {
+    ...options,
+    method: 'PUT',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: { resolution },
+  })
+}
+
+export function getFirstPostQueue(
+  accessToken: string,
+  params: PaginationParams = {},
+  options?: FetchOptions
+): Promise<FirstPostQueueResponse> {
+  const query = buildQuery({ limit: params.limit, cursor: params.cursor })
+  return apiFetch<FirstPostQueueResponse>(`/api/moderation/queue${query}`, {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+export function resolveFirstPost(
+  id: string,
+  action: 'approved' | 'rejected',
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>(`/api/moderation/queue/${encodeURIComponent(id)}`, {
+    ...options,
+    method: 'PUT',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: { action },
+  })
+}
+
+export function getModerationLog(
+  accessToken: string,
+  params: PaginationParams = {},
+  options?: FetchOptions
+): Promise<ModerationLogResponse> {
+  const query = buildQuery({ limit: params.limit, cursor: params.cursor })
+  return apiFetch<ModerationLogResponse>(`/api/moderation/log${query}`, {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+export function getModerationThresholds(
+  accessToken: string,
+  options?: FetchOptions
+): Promise<ModerationThresholds> {
+  return apiFetch<ModerationThresholds>('/api/admin/moderation/thresholds', {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+export function updateModerationThresholds(
+  thresholds: Partial<ModerationThresholds>,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<ModerationThresholds> {
+  return apiFetch<ModerationThresholds>('/api/admin/moderation/thresholds', {
+    ...options,
+    method: 'PUT',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: thresholds,
+  })
+}
+
+export function getReportedUsers(
+  accessToken: string,
+  options?: FetchOptions
+): Promise<ReportedUsersResponse> {
+  return apiFetch<ReportedUsersResponse>('/api/admin/reports/users', {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+// --- Admin settings endpoints ---
+
+export function updateCommunitySettings(
+  settings: Partial<CommunitySettings>,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<CommunitySettings> {
+  return apiFetch<CommunitySettings>('/api/admin/settings', {
+    ...options,
+    method: 'PUT',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: settings,
+  })
+}
+
+// --- Admin user endpoints ---
+
+export function getAdminUsers(
+  accessToken: string,
+  params: PaginationParams = {},
+  options?: FetchOptions
+): Promise<AdminUsersResponse> {
+  const query = buildQuery({ limit: params.limit, cursor: params.cursor })
+  return apiFetch<AdminUsersResponse>(`/api/admin/users${query}`, {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+export function banUser(
+  did: string,
+  reason: string,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>('/api/moderation/ban', {
+    ...options,
+    method: 'POST',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: { did, action: 'ban', reason },
+  })
+}
+
+export function unbanUser(did: string, accessToken: string, options?: FetchOptions): Promise<void> {
+  return apiFetch<void>('/api/moderation/ban', {
+    ...options,
+    method: 'POST',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: { did, action: 'unban' },
   })
 }
 

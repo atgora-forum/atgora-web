@@ -10,6 +10,14 @@ import type {
   Reply,
   Notification,
   SearchResult,
+  ModerationReport,
+  FirstPostQueueItem,
+  ModerationLogEntry,
+  ModerationThresholds,
+  ReportedUser,
+  AdminUser,
+  CommunitySettings,
+  CommunityStats,
 } from '@/lib/api/types'
 
 const COMMUNITY_DID = 'did:plc:test-community-123'
@@ -406,5 +414,289 @@ export const mockReplies: Reply[] = [
     reactionCount: 8,
     createdAt: NOW,
     indexedAt: NOW,
+  },
+]
+
+// --- Community Settings ---
+
+export const mockCommunitySettings: CommunitySettings = {
+  id: 'community-1',
+  initialized: true,
+  communityDid: COMMUNITY_DID,
+  adminDid: mockUsers[0]!.did,
+  communityName: 'Barazo Test Community',
+  maturityRating: 'safe',
+  reactionSet: ['like', 'love', 'laugh', 'surprise', 'sad'],
+  communityDescription: 'A test community for development',
+  communityLogoUrl: null,
+  primaryColor: '#31748f',
+  accentColor: '#c4a7e7',
+  createdAt: TWO_DAYS_AGO,
+  updatedAt: NOW,
+}
+
+// --- Community Stats ---
+
+export const mockCommunityStats: CommunityStats = {
+  topicCount: 42,
+  replyCount: 187,
+  userCount: 156,
+  categoryCount: 6,
+  reportCount: 3,
+  recentTopics: 8,
+  recentReplies: 23,
+  recentUsers: 5,
+}
+
+// --- Moderation Reports ---
+
+export const mockReports: ModerationReport[] = [
+  {
+    id: 'report-1',
+    reporterDid: mockUsers[2]!.did,
+    reporterHandle: mockUsers[2]!.handle,
+    targetUri: mockTopics[2]!.uri,
+    targetAuthorDid: mockUsers[3]!.did,
+    targetAuthorHandle: mockUsers[3]!.handle,
+    targetContent: 'This content contains misleading information about the protocol.',
+    targetTitle: 'Feature Request: Dark Mode Improvements',
+    reasonType: 'misleading',
+    reason: 'This post contains inaccurate technical claims',
+    potentiallyIllegal: false,
+    status: 'pending',
+    resolution: null,
+    resolvedAt: null,
+    resolvedByDid: null,
+    communityDid: COMMUNITY_DID,
+    createdAt: NOW,
+  },
+  {
+    id: 'report-2',
+    reporterDid: mockUsers[4]!.did,
+    reporterHandle: mockUsers[4]!.handle,
+    targetUri: `at://${mockUsers[1]!.did}/forum.barazo.reply.post/3kf6spam`,
+    targetAuthorDid: mockUsers[1]!.did,
+    targetAuthorHandle: mockUsers[1]!.handle,
+    targetContent: 'Buy cheap products at example.com! Best deals ever!',
+    targetTitle: null,
+    reasonType: 'spam',
+    reason: 'Obvious spam with commercial links',
+    potentiallyIllegal: false,
+    status: 'pending',
+    resolution: null,
+    resolvedAt: null,
+    resolvedByDid: null,
+    communityDid: COMMUNITY_DID,
+    createdAt: YESTERDAY,
+  },
+  {
+    id: 'report-3',
+    reporterDid: mockUsers[0]!.did,
+    reporterHandle: mockUsers[0]!.handle,
+    targetUri: `at://${mockUsers[3]!.did}/forum.barazo.reply.post/3kf6ill`,
+    targetAuthorDid: mockUsers[3]!.did,
+    targetAuthorHandle: mockUsers[3]!.handle,
+    targetContent: 'Content that may violate local laws regarding hate speech.',
+    targetTitle: null,
+    reasonType: 'harassment',
+    reason: 'Potentially illegal hate speech content',
+    potentiallyIllegal: true,
+    status: 'pending',
+    resolution: null,
+    resolvedAt: null,
+    resolvedByDid: null,
+    communityDid: COMMUNITY_DID,
+    createdAt: NOW,
+  },
+]
+
+// --- First Post Queue ---
+
+export const mockFirstPostQueue: FirstPostQueueItem[] = [
+  {
+    id: 'fpq-1',
+    authorDid: 'did:plc:new-user-001',
+    authorHandle: 'newbie.bsky.social',
+    contentUri: 'at://did:plc:new-user-001/forum.barazo.reply.post/3kf7aaa',
+    contentType: 'reply',
+    title: null,
+    content: 'Hello everyone! I am new here and excited to join this community.',
+    accountAge: '2 days',
+    crossCommunityCount: 0,
+    status: 'pending',
+    communityDid: COMMUNITY_DID,
+    createdAt: NOW,
+  },
+  {
+    id: 'fpq-2',
+    authorDid: 'did:plc:new-user-002',
+    authorHandle: 'newcomer.example.com',
+    contentUri: 'at://did:plc:new-user-002/forum.barazo.topic.post/3kf7bbb',
+    contentType: 'topic',
+    title: 'Introduction: Newcomer here!',
+    content: 'Hi, I found this forum through Bluesky and wanted to introduce myself.',
+    accountAge: '5 days',
+    crossCommunityCount: 3,
+    status: 'pending',
+    communityDid: COMMUNITY_DID,
+    createdAt: YESTERDAY,
+  },
+]
+
+// --- Moderation Log ---
+
+export const mockModerationLog: ModerationLogEntry[] = [
+  {
+    id: 'log-1',
+    actionType: 'pin',
+    moderatorDid: mockUsers[0]!.did,
+    moderatorHandle: mockUsers[0]!.handle,
+    targetUri: mockTopics[0]!.uri,
+    targetDid: null,
+    targetHandle: null,
+    reason: 'Welcome topic should be visible',
+    communityDid: COMMUNITY_DID,
+    createdAt: NOW,
+  },
+  {
+    id: 'log-2',
+    actionType: 'warn',
+    moderatorDid: mockUsers[0]!.did,
+    moderatorHandle: mockUsers[0]!.handle,
+    targetUri: null,
+    targetDid: mockUsers[3]!.did,
+    targetHandle: mockUsers[3]!.handle,
+    reason: 'Repeated off-topic posting',
+    communityDid: COMMUNITY_DID,
+    createdAt: YESTERDAY,
+  },
+  {
+    id: 'log-3',
+    actionType: 'delete',
+    moderatorDid: mockUsers[4]!.did,
+    moderatorHandle: mockUsers[4]!.handle,
+    targetUri: `at://${mockUsers[1]!.did}/forum.barazo.reply.post/3kf6spam`,
+    targetDid: mockUsers[1]!.did,
+    targetHandle: mockUsers[1]!.handle,
+    reason: 'Spam content',
+    communityDid: COMMUNITY_DID,
+    createdAt: TWO_DAYS_AGO,
+  },
+]
+
+// --- Moderation Thresholds ---
+
+export const mockModerationThresholds: ModerationThresholds = {
+  autoBlockReportCount: 5,
+  warnThreshold: 3,
+  firstPostQueueCount: 3,
+  newAccountRateLimit: 3,
+  linkPostingHold: true,
+  topicCreationDelay: true,
+  burstDetectionPostCount: 5,
+  burstDetectionMinutes: 10,
+}
+
+// --- Reported Users ---
+
+export const mockReportedUsers: ReportedUser[] = [
+  {
+    did: mockUsers[3]!.did,
+    handle: mockUsers[3]!.handle,
+    reportCount: 4,
+    latestReportAt: NOW,
+    bannedFromOtherCommunities: 2,
+  },
+  {
+    did: mockUsers[1]!.did,
+    handle: mockUsers[1]!.handle,
+    reportCount: 2,
+    latestReportAt: YESTERDAY,
+    bannedFromOtherCommunities: 0,
+  },
+]
+
+// --- Admin Users ---
+
+export const mockAdminUsers: AdminUser[] = [
+  {
+    did: mockUsers[0]!.did,
+    handle: mockUsers[0]!.handle,
+    displayName: 'Alice Admin',
+    avatarUrl: null,
+    role: 'admin',
+    isBanned: false,
+    bannedAt: null,
+    banReason: null,
+    bannedFromOtherCommunities: 0,
+    topicCount: 15,
+    replyCount: 42,
+    reportCount: 0,
+    firstSeenAt: TWO_DAYS_AGO,
+    lastActiveAt: NOW,
+  },
+  {
+    did: mockUsers[1]!.did,
+    handle: mockUsers[1]!.handle,
+    displayName: 'Bob Moderator',
+    avatarUrl: null,
+    role: 'moderator',
+    isBanned: false,
+    bannedAt: null,
+    banReason: null,
+    bannedFromOtherCommunities: 0,
+    topicCount: 8,
+    replyCount: 31,
+    reportCount: 2,
+    firstSeenAt: TWO_DAYS_AGO,
+    lastActiveAt: YESTERDAY,
+  },
+  {
+    did: mockUsers[2]!.did,
+    handle: mockUsers[2]!.handle,
+    displayName: 'Carol Member',
+    avatarUrl: null,
+    role: 'member',
+    isBanned: false,
+    bannedAt: null,
+    banReason: null,
+    bannedFromOtherCommunities: 0,
+    topicCount: 3,
+    replyCount: 12,
+    reportCount: 0,
+    firstSeenAt: YESTERDAY,
+    lastActiveAt: NOW,
+  },
+  {
+    did: mockUsers[3]!.did,
+    handle: mockUsers[3]!.handle,
+    displayName: 'Dave Troublemaker',
+    avatarUrl: null,
+    role: 'member',
+    isBanned: false,
+    bannedAt: null,
+    banReason: null,
+    bannedFromOtherCommunities: 2,
+    topicCount: 5,
+    replyCount: 18,
+    reportCount: 4,
+    firstSeenAt: TWO_DAYS_AGO,
+    lastActiveAt: NOW,
+  },
+  {
+    did: mockUsers[4]!.did,
+    handle: mockUsers[4]!.handle,
+    displayName: 'Eve Banned',
+    avatarUrl: null,
+    role: 'member',
+    isBanned: true,
+    bannedAt: YESTERDAY,
+    banReason: 'Repeated spam violations',
+    bannedFromOtherCommunities: 3,
+    topicCount: 1,
+    replyCount: 2,
+    reportCount: 5,
+    firstSeenAt: TWO_DAYS_AGO,
+    lastActiveAt: YESTERDAY,
   },
 ]

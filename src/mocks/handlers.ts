@@ -12,6 +12,14 @@ import {
   mockReplies,
   mockSearchResults,
   mockNotifications,
+  mockCommunitySettings,
+  mockCommunityStats,
+  mockReports,
+  mockFirstPostQueue,
+  mockModerationLog,
+  mockModerationThresholds,
+  mockReportedUsers,
+  mockAdminUsers,
 } from './data'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
@@ -211,5 +219,179 @@ export const handlers = [
       return HttpResponse.json({ error: 'Topic not found' }, { status: 404 })
     }
     return HttpResponse.json(topic)
+  }),
+
+  // --- Admin endpoints ---
+
+  // GET /api/admin/settings
+  http.get(`${API_URL}/api/admin/settings`, () => {
+    return HttpResponse.json(mockCommunitySettings)
+  }),
+
+  // PUT /api/admin/settings
+  http.put(`${API_URL}/api/admin/settings`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const body = (await request.json()) as Record<string, unknown>
+    return HttpResponse.json({ ...mockCommunitySettings, ...body })
+  }),
+
+  // GET /api/admin/stats
+  http.get(`${API_URL}/api/admin/stats`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json(mockCommunityStats)
+  }),
+
+  // POST /api/admin/categories
+  http.post(`${API_URL}/api/admin/categories`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const body = (await request.json()) as Record<string, unknown>
+    const newCategory = {
+      id: `cat-${Date.now()}`,
+      ...body,
+      communityDid: 'did:plc:test-community-123',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      children: [],
+    }
+    return HttpResponse.json(newCategory, { status: 201 })
+  }),
+
+  // PUT /api/admin/categories/:id
+  http.put(`${API_URL}/api/admin/categories/:id`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const body = (await request.json()) as Record<string, unknown>
+    return HttpResponse.json({ ...mockCategories[0], ...body, children: [] })
+  }),
+
+  // DELETE /api/admin/categories/:id
+  http.delete(`${API_URL}/api/admin/categories/:id`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // GET /api/moderation/reports
+  http.get(`${API_URL}/api/moderation/reports`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json({
+      reports: mockReports,
+      cursor: null,
+      total: mockReports.length,
+    })
+  }),
+
+  // PUT /api/moderation/reports/:id
+  http.put(`${API_URL}/api/moderation/reports/:id`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // GET /api/moderation/queue
+  http.get(`${API_URL}/api/moderation/queue`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json({
+      items: mockFirstPostQueue,
+      cursor: null,
+      total: mockFirstPostQueue.length,
+    })
+  }),
+
+  // PUT /api/moderation/queue/:id
+  http.put(`${API_URL}/api/moderation/queue/:id`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // GET /api/moderation/log
+  http.get(`${API_URL}/api/moderation/log`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json({
+      entries: mockModerationLog,
+      cursor: null,
+      total: mockModerationLog.length,
+    })
+  }),
+
+  // GET /api/admin/moderation/thresholds
+  http.get(`${API_URL}/api/admin/moderation/thresholds`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json(mockModerationThresholds)
+  }),
+
+  // PUT /api/admin/moderation/thresholds
+  http.put(`${API_URL}/api/admin/moderation/thresholds`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const body = (await request.json()) as Record<string, unknown>
+    return HttpResponse.json({ ...mockModerationThresholds, ...body })
+  }),
+
+  // GET /api/admin/reports/users
+  http.get(`${API_URL}/api/admin/reports/users`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json({ users: mockReportedUsers })
+  }),
+
+  // GET /api/admin/users
+  http.get(`${API_URL}/api/admin/users`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const url = new URL(request.url)
+    const limitParam = url.searchParams.get('limit')
+    const limit = limitParam ? parseInt(limitParam, 10) : 20
+    const limited = mockAdminUsers.slice(0, limit)
+    return HttpResponse.json({
+      users: limited,
+      cursor: null,
+      total: mockAdminUsers.length,
+    })
+  }),
+
+  // POST /api/moderation/ban
+  http.post(`${API_URL}/api/moderation/ban`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
   }),
 ]

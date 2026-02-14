@@ -8,6 +8,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTopicByRkey, getCategories, getReplies, ApiError } from '@/lib/api/client'
+import { slugify } from '@/lib/format'
 import { ForumLayout } from '@/components/layout/forum-layout'
 import { CategoryNav } from '@/components/category-nav'
 import { Breadcrumbs } from '@/components/breadcrumbs'
@@ -31,6 +32,9 @@ export async function generateMetadata({ params }: TopicPageProps): Promise<Meta
     return {
       title: topic.title,
       description,
+      alternates: {
+        canonical: `/t/${slugify(topic.title)}/${rkey}`,
+      },
       openGraph: {
         title: topic.title,
         description,

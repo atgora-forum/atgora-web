@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: 'Barazo - Community Forums on the AT Protocol',
   description:
     'Federated community forums with portable identity, user data ownership, and cross-community reputation.',
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default async function HomePage() {

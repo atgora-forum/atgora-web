@@ -9,6 +9,7 @@ import type {
   CategoryWithTopicCount,
   CommunitySettings,
   CommunityStats,
+  Topic,
   TopicsResponse,
   RepliesResponse,
   PaginationParams,
@@ -88,6 +89,10 @@ export function getTopics(
     sort: params.sort,
   })
   return apiFetch<TopicsResponse>(`/api/topics${query}`, options)
+}
+
+export function getTopicByRkey(rkey: string, options?: FetchOptions): Promise<Topic> {
+  return apiFetch<Topic>(`/api/topics/by-rkey/${encodeURIComponent(rkey)}`, options)
 }
 
 // --- Reply endpoints ---

@@ -37,3 +37,25 @@ export function formatCompactNumber(n: number): string {
   if (n < 1_000_000) return `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k`
   return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
 }
+
+/**
+ * Converts a string to a URL-safe slug.
+ */
+export function slugify(text: string): string {
+  const slug = text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/[\s-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80)
+    .replace(/-+$/, '')
+
+  return slug || 'untitled'
+}
+
+/**
+ * Generates a topic URL from a topic's title and rkey.
+ */
+export function getTopicUrl(topic: { title: string; rkey: string }): string {
+  return `/t/${slugify(topic.title)}/${topic.rkey}`
+}

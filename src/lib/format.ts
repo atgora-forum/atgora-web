@@ -1,0 +1,39 @@
+/**
+ * Formatting utilities for display values.
+ */
+
+/**
+ * Formats an ISO date string as a relative time (e.g., "2h ago", "3d ago").
+ */
+export function formatRelativeTime(isoDate: string): string {
+  const date = new Date(isoDate)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffSeconds = Math.floor(diffMs / 1000)
+
+  if (diffSeconds < 60) return 'just now'
+
+  const diffMinutes = Math.floor(diffSeconds / 60)
+  if (diffMinutes < 60) return `${diffMinutes}m ago`
+
+  const diffHours = Math.floor(diffMinutes / 60)
+  if (diffHours < 24) return `${diffHours}h ago`
+
+  const diffDays = Math.floor(diffHours / 24)
+  if (diffDays < 30) return `${diffDays}d ago`
+
+  const diffMonths = Math.floor(diffDays / 30)
+  if (diffMonths < 12) return `${diffMonths}mo ago`
+
+  const diffYears = Math.floor(diffMonths / 12)
+  return `${diffYears}y ago`
+}
+
+/**
+ * Formats a number with compact notation (e.g., 1.2k, 3.4M).
+ */
+export function formatCompactNumber(n: number): string {
+  if (n < 1000) return String(n)
+  if (n < 1_000_000) return `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k`
+  return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
+}

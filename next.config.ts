@@ -2,16 +2,25 @@ import type { NextConfig } from 'next'
 
 /**
  * Next.js Configuration for Barazo Web
+ * Uses standalone output for Docker deployment with SSR.
  * @see https://nextjs.org/docs/api-reference/next.config.js/introduction
  */
 const nextConfig: NextConfig = {
-  // Static export for Docker deployment
-  output: 'export',
-  distDir: 'dist',
+  // Standalone output for Docker (includes Node.js server)
+  output: 'standalone',
 
-  // Image optimization (static export requires unoptimized images)
+  // Image optimization
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.bsky.social',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.bsky.app',
+      },
+    ],
   },
 
   // Trailing slashes for SEO consistency

@@ -115,7 +115,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build
-          path: dist/
+          path: |
+            .next/standalone/
+            .next/static/
           retention-days: 7
 
   accessibility:
@@ -143,17 +145,29 @@ jobs:
       - name: Build application
         run: pnpm build
 
+      - name: Prepare standalone server
+        run: |
+          cp -r .next/static .next/standalone/.next/static
+          cp -r public .next/standalone/public
+
       - name: Install axe-core CLI
         run: pnpm add -g @axe-core/cli
 
       - name: Sync Chrome and ChromeDriver versions
         run: npx browser-driver-manager install chrome
 
-      - name: Serve build
-        run: npx serve dist -l 3000 &
+      - name: Start standalone server
+        run: node .next/standalone/server.js &
+        env:
+          PORT: '3000'
+          HOSTNAME: '0.0.0.0'
 
       - name: Wait for server
-        run: sleep 5
+        run: |
+          for i in $(seq 1 30); do
+            curl -s http://localhost:3000 > /dev/null 2>&1 && break
+            sleep 1
+          done
 
       - name: Run axe accessibility check
         run: axe http://localhost:3000 --exit

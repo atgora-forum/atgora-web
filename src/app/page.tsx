@@ -10,6 +10,7 @@ import { getCategories, getTopics } from '@/lib/api/client'
 import { ForumLayout } from '@/components/layout/forum-layout'
 import { TopicList } from '@/components/topic-list'
 import { CategoryNav } from '@/components/category-nav'
+import type { CategoriesResponse, TopicsResponse } from '@/lib/api/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,10 +21,18 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [categoriesResult, topicsResult] = await Promise.all([
-    getCategories(),
-    getTopics({ limit: 20, sort: 'latest' }),
-  ])
+  let categoriesResult: CategoriesResponse = { categories: [] }
+  let topicsResult: TopicsResponse = { topics: [], cursor: null }
+  let apiError = false
+
+  try {
+    ;[categoriesResult, topicsResult] = await Promise.all([
+      getCategories(),
+      getTopics({ limit: 20, sort: 'latest' }),
+    ])
+  } catch {
+    apiError = true
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -41,7 +50,13 @@ export default async function HomePage() {
   }
 
   return (
-    <ForumLayout sidebar={<CategoryNav categories={categoriesResult.categories} />}>
+    <ForumLayout
+      sidebar={
+        categoriesResult.categories.length > 0 ? (
+          <CategoryNav categories={categoriesResult.categories} />
+        ) : undefined
+      }
+    >
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -56,13 +71,25 @@ export default async function HomePage() {
         </p>
       </div>
 
-      {/* Category cards (mobile) */}
-      <div className="mb-6 lg:hidden">
-        <CategoryNav categories={categoriesResult.categories} />
-      </div>
+      {apiError ? (
+        <div className="rounded-lg border border-border bg-card p-8 text-center">
+          <p className="text-muted-foreground">
+            Unable to connect to the forum API. Please try again later.
+          </p>
+        </div>
+      ) : (
+        <>
+          {/* Category cards (mobile) */}
+          {categoriesResult.categories.length > 0 && (
+            <div className="mb-6 lg:hidden">
+              <CategoryNav categories={categoriesResult.categories} />
+            </div>
+          )}
 
-      {/* Recent Topics */}
-      <TopicList topics={topicsResult.topics} heading="Recent Topics" />
+          {/* Recent Topics */}
+          <TopicList topics={topicsResult.topics} heading="Recent Topics" />
+        </>
+      )}
     </ForumLayout>
   )
 }

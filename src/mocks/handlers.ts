@@ -5,7 +5,13 @@
  */
 
 import { http, HttpResponse } from 'msw'
-import { mockCategories, mockCategoryWithTopicCount, mockTopics, mockReplies } from './data'
+import {
+  mockCategories,
+  mockCategoryWithTopicCount,
+  mockTopics,
+  mockReplies,
+  mockSearchResults,
+} from './data'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 
@@ -33,6 +39,32 @@ export const handlers = [
       return HttpResponse.json({ error: 'Category not found' }, { status: 404 })
     }
     return HttpResponse.json({ ...category, topicCount: mockCategoryWithTopicCount.topicCount })
+  }),
+
+  // GET /api/search
+  http.get(`${API_URL}/api/search`, ({ request }) => {
+    const url = new URL(request.url)
+    const q = url.searchParams.get('q') ?? ''
+    const limitParam = url.searchParams.get('limit')
+    const limit = limitParam ? parseInt(limitParam, 10) : 20
+
+    const filtered = q
+      ? mockSearchResults.filter(
+          (r) =>
+            r.title?.toLowerCase().includes(q.toLowerCase()) ||
+            r.content.toLowerCase().includes(q.toLowerCase())
+        )
+      : []
+
+    const limited = filtered.slice(0, limit)
+    const hasMore = filtered.length > limit
+
+    return HttpResponse.json({
+      results: limited,
+      cursor: hasMore ? 'mock-cursor-next' : null,
+      total: filtered.length,
+      searchMode: 'fulltext' as const,
+    })
   }),
 
   // GET /api/topics/by-rkey/:rkey (must be before :uri handler)

@@ -9,6 +9,7 @@ import { mockTopics, mockReplies, mockCategories } from '@/mocks/data'
 
 // Mock notFound
 vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
   notFound: vi.fn(() => {
     throw new Error('NEXT_NOT_FOUND')
   }),

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { axe } from 'vitest-axe'
 import { ForumLayout } from './forum-layout'
@@ -7,6 +7,11 @@ import { ForumLayout } from './forum-layout'
 vi.mock('next-themes', () => ({
   useTheme: () => ({ theme: 'dark', setTheme: vi.fn() }),
   ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
+}))
+
+// Mock next/navigation
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
 }))
 
 // Mock next/image
@@ -84,6 +89,15 @@ describe('ForumLayout', () => {
       </ForumLayout>
     )
     expect(screen.getByText('Skip to main content')).toBeInTheDocument()
+  })
+
+  it('renders search input in header', () => {
+    render(
+      <ForumLayout>
+        <p>Content</p>
+      </ForumLayout>
+    )
+    expect(screen.getByRole('combobox')).toBeInTheDocument()
   })
 
   it('passes axe accessibility check', async () => {

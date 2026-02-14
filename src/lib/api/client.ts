@@ -14,6 +14,7 @@ import type {
   TopicsResponse,
   UpdateTopicInput,
   RepliesResponse,
+  SearchResponse,
   PaginationParams,
 } from './types'
 
@@ -149,6 +150,24 @@ export function getReplies(
     `/api/topics/${encodeURIComponent(topicUri)}/replies${query}`,
     options
   )
+}
+
+// --- Search endpoints ---
+
+export interface SearchParams extends PaginationParams {
+  q: string
+}
+
+export function searchContent(
+  params: SearchParams,
+  options?: FetchOptions
+): Promise<SearchResponse> {
+  const query = buildQuery({
+    q: params.q,
+    limit: params.limit,
+    cursor: params.cursor,
+  })
+  return apiFetch<SearchResponse>(`/api/search${query}`, options)
 }
 
 // --- Community endpoints ---

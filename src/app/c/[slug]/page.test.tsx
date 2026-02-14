@@ -8,6 +8,11 @@ vi.mock('@/lib/api/client', () => ({
   getTopics: vi.fn(),
 }))
 
+// Mock next/navigation
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}))
+
 // Mock next-themes
 vi.mock('next-themes', () => ({
   useTheme: () => ({ theme: 'dark', setTheme: vi.fn() }),

@@ -20,6 +20,7 @@ import {
   mockModerationThresholds,
   mockReportedUsers,
   mockAdminUsers,
+  mockPlugins,
 } from './data'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
@@ -388,6 +389,50 @@ export const handlers = [
 
   // POST /api/moderation/ban
   http.post(`${API_URL}/api/moderation/ban`, async ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // GET /api/plugins
+  http.get(`${API_URL}/api/plugins`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return HttpResponse.json({ plugins: mockPlugins })
+  }),
+
+  // PUT /api/plugins/:id/enable or /disable
+  http.put(`${API_URL}/api/plugins/:id/enable`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.put(`${API_URL}/api/plugins/:id/disable`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // PUT /api/plugins/:id/settings
+  http.put(`${API_URL}/api/plugins/:id/settings`, ({ request }) => {
+    const auth = request.headers.get('Authorization')
+    if (!auth?.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // DELETE /api/plugins/:id
+  http.delete(`${API_URL}/api/plugins/:id`, ({ request }) => {
     const auth = request.headers.get('Authorization')
     if (!auth?.startsWith('Bearer ')) {
       return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 })

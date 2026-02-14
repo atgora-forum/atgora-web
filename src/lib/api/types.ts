@@ -347,6 +347,40 @@ export interface AdminUsersResponse {
   total: number
 }
 
+// --- Plugins ---
+
+export type PluginSource = 'core' | 'official' | 'community' | 'experimental'
+
+export interface PluginSettingsSchema {
+  [key: string]: {
+    type: 'boolean' | 'string' | 'number' | 'select'
+    label: string
+    description?: string
+    default: boolean | string | number
+    options?: string[]
+  }
+}
+
+export interface Plugin {
+  id: string
+  name: string
+  displayName: string
+  version: string
+  description: string
+  source: PluginSource
+  enabled: boolean
+  category: string
+  dependencies: string[]
+  dependents: string[]
+  settingsSchema: PluginSettingsSchema
+  settings: Record<string, boolean | string | number>
+  installedAt: string
+}
+
+export interface PluginsResponse {
+  plugins: Plugin[]
+}
+
 // --- Shared ---
 
 export type MaturityRating = 'safe' | 'mature' | 'adult'

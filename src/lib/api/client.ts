@@ -25,6 +25,7 @@ import type {
   ReportedUsersResponse,
   AdminUsersResponse,
   MaturityRating,
+  PluginsResponse,
 } from './types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
@@ -440,6 +441,57 @@ export function unbanUser(did: string, accessToken: string, options?: FetchOptio
     method: 'POST',
     headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
     body: { did, action: 'unban' },
+  })
+}
+
+// --- Plugin endpoints ---
+
+export function getPlugins(accessToken: string, options?: FetchOptions): Promise<PluginsResponse> {
+  return apiFetch<PluginsResponse>('/api/plugins', {
+    ...options,
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+  })
+}
+
+export function togglePlugin(
+  id: string,
+  enabled: boolean,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>(
+    `/api/plugins/${encodeURIComponent(id)}/${enabled ? 'enable' : 'disable'}`,
+    {
+      ...options,
+      method: 'PUT',
+      headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    }
+  )
+}
+
+export function updatePluginSettings(
+  id: string,
+  settings: Record<string, boolean | string | number>,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>(`/api/plugins/${encodeURIComponent(id)}/settings`, {
+    ...options,
+    method: 'PUT',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
+    body: settings,
+  })
+}
+
+export function uninstallPlugin(
+  id: string,
+  accessToken: string,
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>(`/api/plugins/${encodeURIComponent(id)}`, {
+    ...options,
+    method: 'DELETE',
+    headers: { ...options?.headers, Authorization: `Bearer ${accessToken}` },
   })
 }
 

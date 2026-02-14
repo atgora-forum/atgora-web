@@ -15,6 +15,7 @@ import {
   Gear,
   Tag,
   Users,
+  PuzzlePiece,
   ArrowLeft,
 } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
@@ -30,6 +31,7 @@ const NAV_ITEMS = [
   { href: '/admin/settings', label: 'Settings', icon: Gear },
   { href: '/admin/content-ratings', label: 'Content Ratings', icon: Tag },
   { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/plugins', label: 'Plugins', icon: PuzzlePiece },
 ]
 
 export function AdminLayout({ children }: AdminLayoutProps) {

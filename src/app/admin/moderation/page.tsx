@@ -149,18 +149,89 @@ function ReportsTab({
 function FirstPostTab({
   items,
   onResolve,
+  onBatchResolve,
 }: {
   items: FirstPostQueueItem[]
   onResolve: (id: string, action: 'approved' | 'rejected') => void
+  onBatchResolve: (ids: string[], action: 'approved' | 'rejected') => void
 }) {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+
+  const allSelected = items.length > 0 && selectedIds.size === items.length
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds(new Set())
+    } else {
+      setSelectedIds(new Set(items.map((item) => item.id)))
+    }
+  }
+
+  const toggleItem = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }
+
+  const handleBatchAction = (action: 'approved' | 'rejected') => {
+    const ids = Array.from(selectedIds)
+    onBatchResolve(ids, action)
+    setSelectedIds(new Set())
+  }
+
   return (
     <div className="space-y-3">
+      {items.length > 0 && (
+        <div className="flex items-center justify-between">
+          <label className="flex items-center gap-2 text-sm text-muted-foreground">
+            <input
+              type="checkbox"
+              checked={allSelected}
+              onChange={toggleSelectAll}
+              className="rounded border-border"
+              aria-label="Select all"
+            />
+            Select all ({items.length})
+          </label>
+          {selectedIds.size > 0 && (
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleBatchAction('approved')}
+                className="rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-green-700"
+              >
+                Approve selected ({selectedIds.size})
+              </button>
+              <button
+                type="button"
+                onClick={() => handleBatchAction('rejected')}
+                className="rounded-md bg-destructive px-3 py-1 text-xs font-medium text-destructive-foreground transition-colors hover:bg-destructive/90"
+              >
+                Reject selected ({selectedIds.size})
+              </button>
+            </div>
+          )}
+        </div>
+      )}
       {items.map((item) => (
         <article key={item.id} className="rounded-lg border border-border bg-card p-4">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              checked={selectedIds.has(item.id)}
+              onChange={() => toggleItem(item.id)}
+              className="mt-1 rounded border-border"
+              aria-label={`Select post by ${item.authorHandle}`}
+            />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-foreground">{item.authorHandle}</p>
-              <div className="mt-1 flex gap-2 text-xs text-muted-foreground">
+              <div className="mt-1 flex flex-wrap gap-2 text-xs text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
                   <Clock size={12} aria-hidden="true" />
                   New account, {item.accountAge} old
@@ -169,6 +240,13 @@ function FirstPostTab({
                   <span className="inline-flex items-center gap-1">
                     <ShieldCheck size={12} aria-hidden="true" />
                     Active in {item.crossCommunityCount} other communities
+                  </span>
+                )}
+                {item.bannedFromOtherCommunities > 0 && (
+                  <span className="inline-flex items-center gap-1 font-medium text-destructive">
+                    <Prohibit size={12} aria-hidden="true" />
+                    Banned from {item.bannedFromOtherCommunities} other{' '}
+                    {item.bannedFromOtherCommunities === 1 ? 'community' : 'communities'}
                   </span>
                 )}
               </div>
@@ -469,6 +547,15 @@ export default function AdminModerationPage() {
     }
   }
 
+  const handleBatchResolveFirstPost = async (ids: string[], action: 'approved' | 'rejected') => {
+    try {
+      await Promise.all(ids.map((id) => resolveFirstPost(id, action, MOCK_TOKEN)))
+      setFirstPostQueue((prev) => prev.filter((item) => !ids.includes(item.id)))
+    } catch {
+      // Silently handle
+    }
+  }
+
   const handleSaveThresholds = async (updated: Partial<ModerationThresholds>) => {
     try {
       const result = await updateModerationThresholds(updated, MOCK_TOKEN)
@@ -538,6 +625,7 @@ export default function AdminModerationPage() {
                 <FirstPostTab
                   items={firstPostQueue}
                   onResolve={(id, action) => void handleResolveFirstPost(id, action)}
+                  onBatchResolve={(ids, action) => void handleBatchResolveFirstPost(ids, action)}
                 />
               )}
             </div>

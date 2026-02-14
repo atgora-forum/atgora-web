@@ -34,4 +34,14 @@ describe('UserProfilePage', () => {
     render(<UserProfilePage params={{ handle: 'alice.bsky.social' }} />)
     expect(screen.getByText(/recent activity/i)).toBeInTheDocument()
   })
+
+  it('shows cross-community ban warning when user is banned elsewhere', () => {
+    render(<UserProfilePage params={{ handle: 'dave.bsky.social' }} />)
+    expect(screen.getByText(/banned from.*other communit/i)).toBeInTheDocument()
+  })
+
+  it('does not show ban warning for users with no cross-community bans', () => {
+    render(<UserProfilePage params={{ handle: 'alice.bsky.social' }} />)
+    expect(screen.queryByText(/banned from.*other communit/i)).not.toBeInTheDocument()
+  })
 })

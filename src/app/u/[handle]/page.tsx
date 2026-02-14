@@ -9,7 +9,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { User, CalendarBlank, ChatCircle } from '@phosphor-icons/react'
+import { User, CalendarBlank, ChatCircle, Prohibit } from '@phosphor-icons/react'
 import { ForumLayout } from '@/components/layout/forum-layout'
 import { Breadcrumbs } from '@/components/breadcrumbs'
 import { ReputationBadge } from '@/components/reputation-badge'
@@ -42,6 +42,8 @@ export default function UserProfilePage({ params }: UserProfilePageProps) {
   }
 
   // TODO: Fetch user profile from API when endpoint is available
+  // Mock data: dave.bsky.social simulates a user banned from other communities
+  const bannedFromOther = handle === 'dave.bsky.social' ? 2 : 0
   const mockProfile = {
     did: `did:plc:mock-${handle}`,
     handle,
@@ -50,6 +52,7 @@ export default function UserProfilePage({ params }: UserProfilePageProps) {
     postCount: 15,
     joinedAt: '2025-06-15T00:00:00Z',
     isBanned: false,
+    bannedFromOtherCommunities: bannedFromOther,
   }
 
   const joinDate = new Date(mockProfile.joinedAt).toLocaleDateString('en-US', {
@@ -91,6 +94,14 @@ export default function UserProfilePage({ params }: UserProfilePageProps) {
                 <div className="mt-3">
                   <BanIndicator isBanned={true} />
                 </div>
+              )}
+
+              {mockProfile.bannedFromOtherCommunities > 0 && (
+                <p className="mt-2 inline-flex items-center gap-1 rounded-md bg-destructive/10 px-2 py-1 text-xs font-medium text-destructive">
+                  <Prohibit size={14} aria-hidden="true" />
+                  Banned from {mockProfile.bannedFromOtherCommunities} other{' '}
+                  {mockProfile.bannedFromOtherCommunities === 1 ? 'community' : 'communities'}
+                </p>
               )}
             </div>
           </div>

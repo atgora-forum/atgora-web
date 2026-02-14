@@ -42,7 +42,9 @@ describe('SettingsPage', () => {
 
   it('renders notification preferences section', () => {
     render(<SettingsPage />)
-    expect(screen.getByText(/notifications/i)).toBeInTheDocument()
+    // Find the fieldset legend specifically (not the header notification bell's ARIA text)
+    const legends = screen.getAllByText(/notifications/i)
+    expect(legends.some((el) => el.tagName === 'LEGEND')).toBe(true)
   })
 
   it('renders save button', () => {

@@ -15,6 +15,7 @@ import type {
   UpdateTopicInput,
   RepliesResponse,
   SearchResponse,
+  NotificationsResponse,
   PaginationParams,
 } from './types'
 
@@ -168,6 +169,42 @@ export function searchContent(
     cursor: params.cursor,
   })
   return apiFetch<SearchResponse>(`/api/search${query}`, options)
+}
+
+// --- Notification endpoints ---
+
+export function getNotifications(
+  accessToken: string,
+  params: PaginationParams = {},
+  options?: FetchOptions
+): Promise<NotificationsResponse> {
+  const query = buildQuery({
+    limit: params.limit,
+    cursor: params.cursor,
+  })
+  return apiFetch<NotificationsResponse>(`/api/notifications${query}`, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+}
+
+export function markNotificationsRead(
+  accessToken: string,
+  ids: string[],
+  options?: FetchOptions
+): Promise<void> {
+  return apiFetch<void>('/api/notifications/read', {
+    ...options,
+    method: 'PUT',
+    headers: {
+      ...options?.headers,
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: { ids },
+  })
 }
 
 // --- Community endpoints ---

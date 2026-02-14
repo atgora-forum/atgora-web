@@ -91,6 +91,15 @@ describe('ForumLayout', () => {
     expect(screen.getByText('Skip to main content')).toBeInTheDocument()
   })
 
+  it('renders notification bell in header', () => {
+    render(
+      <ForumLayout>
+        <p>Content</p>
+      </ForumLayout>
+    )
+    expect(screen.getByRole('link', { name: /notification/i })).toBeInTheDocument()
+  })
+
   it('renders search input in header', () => {
     render(
       <ForumLayout>

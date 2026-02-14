@@ -18,12 +18,14 @@ import type {
   AdminUser,
   CommunitySettings,
   CommunityStats,
+  Plugin,
 } from '@/lib/api/types'
 
 const COMMUNITY_DID = 'did:plc:test-community-123'
 const NOW = '2026-02-14T12:00:00.000Z'
 const YESTERDAY = '2026-02-13T12:00:00.000Z'
 const TWO_DAYS_AGO = '2026-02-12T12:00:00.000Z'
+const LAST_WEEK = '2026-02-07T12:00:00.000Z'
 
 // --- Users ---
 
@@ -698,5 +700,126 @@ export const mockAdminUsers: AdminUser[] = [
     reportCount: 5,
     firstSeenAt: TWO_DAYS_AGO,
     lastActiveAt: YESTERDAY,
+  },
+]
+
+// --- Plugins ---
+
+export const mockPlugins: Plugin[] = [
+  {
+    id: 'barazo-plugin-search',
+    name: 'barazo-plugin-search',
+    displayName: 'Full-Text Search',
+    version: '1.0.0',
+    description: 'Full-text search for topics and replies with optional semantic search.',
+    source: 'core',
+    enabled: true,
+    category: 'search',
+    dependencies: [],
+    dependents: [],
+    settingsSchema: {
+      enableSemanticSearch: {
+        type: 'boolean',
+        label: 'Enable semantic search',
+        description: 'Use embeddings for semantic search alongside full-text.',
+        default: false,
+      },
+      embeddingProvider: {
+        type: 'select',
+        label: 'Embedding provider',
+        description: 'Provider for generating embeddings.',
+        default: '',
+        options: ['', 'openai', 'ollama', 'openrouter'],
+      },
+    },
+    settings: { enableSemanticSearch: false, embeddingProvider: '' },
+    installedAt: LAST_WEEK,
+  },
+  {
+    id: 'barazo-plugin-markdown',
+    name: 'barazo-plugin-markdown',
+    displayName: 'Markdown Editor',
+    version: '1.2.0',
+    description: 'Rich text editor with Markdown support, code highlighting, and preview.',
+    source: 'core',
+    enabled: true,
+    category: 'editor',
+    dependencies: [],
+    dependents: ['barazo-plugin-code-highlight'],
+    settingsSchema: {
+      enablePreview: {
+        type: 'boolean',
+        label: 'Enable live preview',
+        default: true,
+      },
+    },
+    settings: { enablePreview: true },
+    installedAt: LAST_WEEK,
+  },
+  {
+    id: 'barazo-plugin-code-highlight',
+    name: 'barazo-plugin-code-highlight',
+    displayName: 'Code Highlighting',
+    version: '0.9.1',
+    description: 'Syntax highlighting for code blocks using Shiki.',
+    source: 'official',
+    enabled: true,
+    category: 'editor',
+    dependencies: ['barazo-plugin-markdown'],
+    dependents: [],
+    settingsSchema: {
+      theme: {
+        type: 'select',
+        label: 'Code theme',
+        default: 'flexoki',
+        options: ['flexoki', 'github-dark', 'github-light', 'one-dark-pro'],
+      },
+    },
+    settings: { theme: 'flexoki' },
+    installedAt: LAST_WEEK,
+  },
+  {
+    id: 'barazo-plugin-analytics',
+    name: 'barazo-plugin-analytics',
+    displayName: 'Community Analytics',
+    version: '0.5.0',
+    description: 'Topic trends, user engagement metrics, and growth analytics.',
+    source: 'community',
+    enabled: false,
+    category: 'analytics',
+    dependencies: [],
+    dependents: [],
+    settingsSchema: {
+      trackingInterval: {
+        type: 'number',
+        label: 'Tracking interval (minutes)',
+        description: 'How often to aggregate analytics data.',
+        default: 60,
+      },
+    },
+    settings: { trackingInterval: 60 },
+    installedAt: YESTERDAY,
+  },
+  {
+    id: 'barazo-plugin-webhooks',
+    name: 'barazo-plugin-webhooks',
+    displayName: 'Webhook Notifications',
+    version: '0.2.0-beta',
+    description: 'Send webhook notifications on new topics, replies, and moderation actions.',
+    source: 'experimental',
+    enabled: false,
+    category: 'integrations',
+    dependencies: [],
+    dependents: [],
+    settingsSchema: {
+      webhookUrl: {
+        type: 'string',
+        label: 'Webhook URL',
+        description: 'URL to send webhook payloads to.',
+        default: '',
+      },
+    },
+    settings: { webhookUrl: '' },
+    installedAt: YESTERDAY,
   },
 ]

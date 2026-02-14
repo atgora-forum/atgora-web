@@ -62,6 +62,7 @@ describe('AdminLayout', () => {
     expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /content ratings/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /users/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /plugins/i })).toBeInTheDocument()
   })
 
   it('highlights current page link', () => {

@@ -56,6 +56,22 @@ export interface TopicsResponse {
   cursor: string | null
 }
 
+export interface CreateTopicInput {
+  title: string
+  content: string
+  category: string
+  tags?: string[]
+  crossPostBluesky?: boolean
+  crossPostFrontpage?: boolean
+}
+
+export interface UpdateTopicInput {
+  title?: string
+  content?: string
+  category?: string
+  tags?: string[]
+}
+
 // --- Replies ---
 
 export interface Reply {

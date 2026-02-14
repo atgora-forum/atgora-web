@@ -208,6 +208,145 @@ export interface NotificationsResponse {
   unreadCount: number
 }
 
+// --- Moderation ---
+
+export type ReportReasonType =
+  | 'spam'
+  | 'sexual'
+  | 'harassment'
+  | 'violation'
+  | 'misleading'
+  | 'other'
+
+export type ReportResolution = 'dismissed' | 'warned' | 'labeled' | 'removed' | 'banned'
+
+export interface ModerationReport {
+  id: string
+  reporterDid: string
+  reporterHandle: string
+  targetUri: string
+  targetAuthorDid: string
+  targetAuthorHandle: string
+  targetContent: string
+  targetTitle: string | null
+  reasonType: ReportReasonType
+  reason: string | null
+  potentiallyIllegal: boolean
+  status: 'pending' | 'resolved'
+  resolution: ReportResolution | null
+  resolvedAt: string | null
+  resolvedByDid: string | null
+  communityDid: string
+  createdAt: string
+}
+
+export interface ModerationReportsResponse {
+  reports: ModerationReport[]
+  cursor: string | null
+  total: number
+}
+
+export interface FirstPostQueueItem {
+  id: string
+  authorDid: string
+  authorHandle: string
+  contentUri: string
+  contentType: 'topic' | 'reply'
+  title: string | null
+  content: string
+  accountAge: string
+  crossCommunityCount: number
+  status: 'pending' | 'approved' | 'rejected'
+  communityDid: string
+  createdAt: string
+}
+
+export interface FirstPostQueueResponse {
+  items: FirstPostQueueItem[]
+  cursor: string | null
+  total: number
+}
+
+export type ModerationActionType =
+  | 'lock'
+  | 'unlock'
+  | 'pin'
+  | 'unpin'
+  | 'delete'
+  | 'ban'
+  | 'unban'
+  | 'warn'
+  | 'label'
+  | 'approve'
+  | 'reject'
+
+export interface ModerationLogEntry {
+  id: string
+  actionType: ModerationActionType
+  moderatorDid: string
+  moderatorHandle: string
+  targetUri: string | null
+  targetDid: string | null
+  targetHandle: string | null
+  reason: string | null
+  communityDid: string
+  createdAt: string
+}
+
+export interface ModerationLogResponse {
+  entries: ModerationLogEntry[]
+  cursor: string | null
+  total: number
+}
+
+export interface ModerationThresholds {
+  autoBlockReportCount: number
+  warnThreshold: number
+  firstPostQueueCount: number
+  newAccountRateLimit: number
+  linkPostingHold: boolean
+  topicCreationDelay: boolean
+  burstDetectionPostCount: number
+  burstDetectionMinutes: number
+}
+
+export interface ReportedUser {
+  did: string
+  handle: string
+  reportCount: number
+  latestReportAt: string
+  bannedFromOtherCommunities: number
+}
+
+export interface ReportedUsersResponse {
+  users: ReportedUser[]
+}
+
+// --- Admin Users ---
+
+export interface AdminUser {
+  did: string
+  handle: string
+  displayName: string | null
+  avatarUrl: string | null
+  role: 'member' | 'moderator' | 'admin'
+  isBanned: boolean
+  bannedAt: string | null
+  banReason: string | null
+  bannedFromOtherCommunities: number
+  topicCount: number
+  replyCount: number
+  reportCount: number
+  firstSeenAt: string
+  lastActiveAt: string
+}
+
+export interface AdminUsersResponse {
+  users: AdminUser[]
+  cursor: string | null
+  total: number
+}
+
 // --- Shared ---
 
 export type MaturityRating = 'safe' | 'mature' | 'adult'

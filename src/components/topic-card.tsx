@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { ChatCircle, Heart, Clock } from '@phosphor-icons/react/dist/ssr'
 import type { Topic } from '@/lib/api/types'
 import { cn } from '@/lib/utils'
-import { formatRelativeTime } from '@/lib/format'
+import { formatRelativeTime, getTopicUrl } from '@/lib/format'
 
 interface TopicCardProps {
   topic: Topic
@@ -16,7 +16,7 @@ interface TopicCardProps {
 }
 
 export function TopicCard({ topic, className }: TopicCardProps) {
-  const topicUrl = `/t/${topic.rkey}`
+  const topicUrl = getTopicUrl(topic)
 
   return (
     <article

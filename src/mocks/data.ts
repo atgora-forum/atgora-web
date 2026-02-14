@@ -3,7 +3,7 @@
  * matching barazo-api response schemas.
  */
 
-import type { CategoryTreeNode, CategoryWithTopicCount, Topic } from '@/lib/api/types'
+import type { CategoryTreeNode, CategoryWithTopicCount, Topic, Reply } from '@/lib/api/types'
 
 const COMMUNITY_DID = 'did:plc:test-community-123'
 const NOW = '2026-02-14T12:00:00.000Z'
@@ -194,6 +194,101 @@ export const mockTopics: Topic[] = [
     replyCount: 2,
     reactionCount: 9,
     lastActivityAt: NOW,
+    createdAt: NOW,
+    indexedAt: NOW,
+  },
+]
+
+// --- Replies ---
+
+const TOPIC_URI = mockTopics[0]!.uri
+const TOPIC_CID = mockTopics[0]!.cid
+
+export const mockReplies: Reply[] = [
+  {
+    uri: `at://${mockUsers[1]!.did}/forum.barazo.reply.post/3kf6aaa`,
+    rkey: '3kf6aaa',
+    authorDid: mockUsers[1]!.did,
+    content: 'Welcome! Excited to see this forum take shape.',
+    contentFormat: null,
+    rootUri: TOPIC_URI,
+    rootCid: TOPIC_CID,
+    parentUri: TOPIC_URI,
+    parentCid: TOPIC_CID,
+    communityDid: COMMUNITY_DID,
+    cid: 'bafyreir1',
+    depth: 0,
+    reactionCount: 4,
+    createdAt: TWO_DAYS_AGO,
+    indexedAt: TWO_DAYS_AGO,
+  },
+  {
+    uri: `at://${mockUsers[2]!.did}/forum.barazo.reply.post/3kf6bbb`,
+    rkey: '3kf6bbb',
+    authorDid: mockUsers[2]!.did,
+    content:
+      'Thanks for starting this community! The AT Protocol integration is really interesting.',
+    contentFormat: null,
+    rootUri: TOPIC_URI,
+    rootCid: TOPIC_CID,
+    parentUri: `at://${mockUsers[1]!.did}/forum.barazo.reply.post/3kf6aaa`,
+    parentCid: 'bafyreir1',
+    communityDid: COMMUNITY_DID,
+    cid: 'bafyreir2',
+    depth: 1,
+    reactionCount: 2,
+    createdAt: YESTERDAY,
+    indexedAt: YESTERDAY,
+  },
+  {
+    uri: `at://${mockUsers[0]!.did}/forum.barazo.reply.post/3kf6ccc`,
+    rkey: '3kf6ccc',
+    authorDid: mockUsers[0]!.did,
+    content: 'Agreed! Portable identity changes everything.',
+    contentFormat: null,
+    rootUri: TOPIC_URI,
+    rootCid: TOPIC_CID,
+    parentUri: `at://${mockUsers[2]!.did}/forum.barazo.reply.post/3kf6bbb`,
+    parentCid: 'bafyreir2',
+    communityDid: COMMUNITY_DID,
+    cid: 'bafyreir3',
+    depth: 2,
+    reactionCount: 1,
+    createdAt: YESTERDAY,
+    indexedAt: YESTERDAY,
+  },
+  {
+    uri: `at://${mockUsers[3]!.did}/forum.barazo.reply.post/3kf6ddd`,
+    rkey: '3kf6ddd',
+    authorDid: mockUsers[3]!.did,
+    content: 'One question: how does content moderation work across federated instances?',
+    contentFormat: null,
+    rootUri: TOPIC_URI,
+    rootCid: TOPIC_CID,
+    parentUri: TOPIC_URI,
+    parentCid: TOPIC_CID,
+    communityDid: COMMUNITY_DID,
+    cid: 'bafyreir4',
+    depth: 0,
+    reactionCount: 6,
+    createdAt: NOW,
+    indexedAt: NOW,
+  },
+  {
+    uri: `at://${mockUsers[4]!.did}/forum.barazo.reply.post/3kf6eee`,
+    rkey: '3kf6eee',
+    authorDid: mockUsers[4]!.did,
+    content:
+      'Great question! Each community has its own moderation policies, but the AT Protocol labeling system allows cross-community signals.',
+    contentFormat: null,
+    rootUri: TOPIC_URI,
+    rootCid: TOPIC_CID,
+    parentUri: `at://${mockUsers[3]!.did}/forum.barazo.reply.post/3kf6ddd`,
+    parentCid: 'bafyreir4',
+    communityDid: COMMUNITY_DID,
+    cid: 'bafyreir5',
+    depth: 1,
+    reactionCount: 8,
     createdAt: NOW,
     indexedAt: NOW,
   },
